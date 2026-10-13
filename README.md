@@ -32,7 +32,7 @@ your own (`.tox`, in [`touchdesigner/components/`](touchdesigner/components/)).
 | - | ------ | ---------------- | ---------- |
 | 1 | **Puppet** | Move the robot directly. Sliders, oscillators and noise become a character that breathes, nods and looks around. | `puppet_start.toe` ([guide](docs/1-puppet.md#a-first-character-puppet_starttoe)) |
 | 2 | **Animate** | Movements over time. Play clips such as yes, no and maybe, and make your own: pose by pose, as a take, or by posing the real robot by hand. | `animate_start.toe` ([guide](docs/2-animate.md#clips-animate_starttoe)) |
-| 3 | **Sense** | What happens in front of the robot, as numbers a network can react to: a face, a hand, a voice, a spoken sentence. | the `_signal` components ([guide](docs/3-sense.md)) |
+| 3 | **Sense** | What happens in front of the robot, as numbers a network can react to: a face, a hand, a voice, a spoken sentence. | `sense_start.toe` ([guide](docs/3-sense.md#three-reflexes-sense_starttoe)) |
 | 4 | **Think** | A sentence, typed or spoken, goes in and a decision comes out: a model chooses one of your options, and the robot plays that option's clip. | `think_start.toe` ([guide](docs/4-think.md#a-sentence-in-a-clip-out-think_starttoe)) |
 | 5 | **Compose** | Idle, gaze, clips and reactions layered into one behaviour. | not in the repository yet |
 | 6 | **Extend** | The same behaviour on another body: a light, a servo, a projection. | not in the repository yet |

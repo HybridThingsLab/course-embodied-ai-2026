@@ -5,6 +5,7 @@ the robot, as numbers a network can react to. Each component here is a **signal*
 says what happens, as channels, and never moves anything itself. What the robot does
 with it is the network's business, and each section ends with a few ways to wire it.
 
+- [`sense_start.toe`](#three-reflexes-sense_starttoe): the project to open
 - [MediaPipe](#camera-tracking-with-mediapipe): the camera tracking the next two read
 - [`face_signal`](#a-face-as-channels-the-face_signal-component): a face in front of
   the camera
@@ -17,6 +18,50 @@ with it is the network's business, and each section ends with a few ways to wire
 
 Before: [Animate](2-animate.md). Next: [Think](4-think.md).
 
+## Three reflexes: sense_start.toe
+
+[`touchdesigner/sense_start.toe`](../touchdesigner/sense_start.toe) has a face, a hand
+and a voice move the robot, each in one way: it looks at you, it nods at a thumbs up,
+and its antennas lean in when you speak. Three signals, and after each a short chain
+of operators that turns what it says into a movement.
+
+It needs a webcam and the `MediaPipe` component, a download of its own:
+[see below](#camera-tracking-with-mediapipe). Then open the project, click `MediaPipe`
+and choose your camera as **Webcam**. The system may ask whether TouchDesigner may use
+the camera and the microphone. `reachy_twin` shows the robot as a picture right away;
+for the simulator or the robot, click `reachy_hub`, press **Start** on its Station page
+and wait for `ready`.
+
+| Operator | What it does |
+| --- | --- |
+| `MediaPipe` | the camera, and what MediaPipe finds in its picture; only face landmarks and hands are switched on |
+| `face` (a `face_signal`), `hand` (a `hand_signal`), `voice` (a `voice_signal`) | what happens, as channels; `face_out`, `hand_out` and `voice_out` (Null) show them |
+| `look` (Select, `face/x face/y`) → `degrees` (Math: Multiply 35) → `as_head` (Rename to `reachy/head/yaw reachy/head/pitch`) → `steady` (Filter: One Euro) → `follow` (Lag) | it looks at you: where the face is in the picture becomes a turn of the head |
+| `thumbs_up` (Select, `hand/thumbs_up`) → `nod` (a `clip_player` with the clip `yes`) → `nod_out` (Null) | thumbs up, and it nods: a gesture starts a clip |
+| `level` (Select, `voice/level`) → `perk` (Lag: 0.03 up, 0.5 down) → `lean_left`, `lean_right` (Math: Multiply 0.5 and −0.5) → `as_left`, `as_right` (Rename to `reachy/antenna/left`, `reachy/antenna/right`) | speak, and the antennas lean in: how loud it is becomes how far |
+| `base` (Constant) and `motion` (Math: Combine CHOPs *Add*, Match by *Channel Name*) | the nine robot channels at 0, with the three added channel by channel |
+| `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back; `reachy_twin` shows the same as a picture |
+
+The three are examples of three kinds of reaction: a position that is followed, an
+event that starts something, and a strength that becomes an amount. Change their
+numbers first: the Multiply of `degrees`, the Lag of `follow`, the **Clip** of `nod`,
+the gesture named in `thumbs_up`. Then wire in your own: the sections below list what
+each signal says and end with more ways to use it. A new chain ends in `motion`.
+
+- **`face` says `no data`**: press **Connect to MediaPipe** on its Face page, and the
+  same on `hand`. That can happen when the project was opened before `MediaPipe.tox`
+  was in its folder.
+- **`face` says `1 face` before the camera is on**: `MediaPipe.tox` has one face stored
+  in it, and sends that until the camera's first picture is there. The head looks a
+  little down and to the side meanwhile. To see whether the camera is seen: cover it
+  with your hand, and Status says `no face`.
+- **The head turns away from you**: **Picture is Flipped** on `face` has to be on while
+  MediaPipe's **Horizontal Flip** is on. The directions also assume a camera that looks
+  where the robot looks.
+- **The antennas never rest**: the room is loud. Click `voice` and raise **Quiet**.
+
+The `readme` in the project has the steps.
+
 ## Camera tracking with MediaPipe
 
 [`touchdesigner/mediapipe/`](../touchdesigner/mediapipe/) holds
@@ -26,16 +71,19 @@ from [MediaPipe for TouchDesigner](https://github.com/torinmb/mediapipe-touchdes
 capable graphics card.
 
 The main component, `MediaPipe.tox` (~172 MB), is too large for this repository.
-Download it from the project's
-[releases](https://github.com/torinmb/mediapipe-touchdesigner/releases) and put it at
-`touchdesigner/mediapipe/toxes/MediaPipe.tox`.
+Download `release.zip` from the project's
+[releases](https://github.com/torinmb/mediapipe-touchdesigner/releases) and put its
+`toxes/MediaPipe.tox` at `touchdesigner/mediapipe/toxes/MediaPipe.tox`.
+`sense_start.toe` loads it from there every time it opens, so the project file itself
+stays small. A copy of `sense_start.toe`, saved next to it, is the simplest start for a
+project of your own with a camera.
 
 ### A face as channels: the face_signal component
 
 [`touchdesigner/components/face_signal.tox`](../touchdesigner/components/face_signal.tox) turns MediaPipe's
 face results into a handful of channels that say where a face is and what it does.
 
-1. Have the `MediaPipe` component in your network (`Reachy_Mediapipe.toe` has it) and
+1. Have the `MediaPipe` component in your network (`sense_start.toe` has it) and
    switch on **Detect facial landmarks** on its MediaPipe page.
 2. Drag `face_signal.tox` in next to it and press **Connect to MediaPipe** on its Face
    page. By hand, it is the MediaPipe output named `face_landmarks` that goes into it.
