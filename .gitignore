@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# TouchDesigner: automatic backups and incremental saves (name.1.toe, name.2.toe, ...)
+Backup/
+*.[0-9].toe
+*.[0-9][0-9].toe
+
+# The MediaPipe component (~172 MB): downloaded separately, see docs/3-sense.md
+touchdesigner/mediapipe/toxes/MediaPipe.tox
+
+# What the robot software and the listener write while they run
+*.log
+
+# Where a hand has put the robot's head in teach mode: it belongs to the robot it was
+# taught on.
+taught_room.json
+taught_room.json.part
+
+# The key for a model in the cloud (docs/4-think.md). It belongs to whoever pays for
+# it, never to a repository.
+brain_key.txt
