@@ -128,10 +128,12 @@ The addresses, their ranges and the speed limits are in
   & Security → Microphone. Windows: Settings → Privacy & security → Microphone → *Let
   desktop apps access your microphone*.
 - **`brain_signal` says `keyword match: …`.** No model answered, and the rest of the
-  line says why. For Tev1 and Nimble: start Ollama, and pull the model once
-  (`ollama pull tev1`). For Jev: the key file is missing or was not accepted.
+  line says why. For Tev1 and Nimble: start Ollama, and get the model once (run
+  `setup-think`, or `ollama pull tev1`). For Jev: the key file is missing or was not
+  accepted.
 - **`speech_signal` says `Whisper stopped: No module named …`.** Its packages are not
-  installed: `uv pip install -e ".[speech]"` in the project folder.
+  installed: run `setup-speech` in the project folder (or
+  `uv pip install -e ".[speech]"` there).
 - **`speech_signal` says `no microphone …`, or hears nothing.** TouchDesigner may not
   use the microphone: the same system setting as for `voice_signal` above. Or start
   the listener by hand ([speech_signal](3-sense.md#what-was-said-the-speech_signal-component)).

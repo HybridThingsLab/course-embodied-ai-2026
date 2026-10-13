@@ -53,6 +53,10 @@ TouchDesigner operators that you build, and that stays open to change.
 3. **Open `touchdesigner/puppet_start.toe`**, click `reachy_hub`, press **Start** on
    its Station page and wait for `ready`. The simulated robot starts to move.
 
+Later, speaking to the robot (Sense) and a model that decides (Think) each have a
+setup of their own to double-click: `setup-speech` and `setup-think`
+([docs/getting-started.md](docs/getting-started.md#6-later-speech-and-a-model-that-decides)).
+
 For a first look without any setup, drag `touchdesigner/components/reachy_twin.tox` into
 a new TouchDesigner project: it is the robot as a picture and needs nothing else.
 

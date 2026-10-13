@@ -122,6 +122,18 @@ Install TouchDesigner ([touchdesigner.md](touchdesigner.md), step 1), then open 
 first project, `touchdesigner/puppet_start.toe`: [1-puppet.md](1-puppet.md). To send
 values by hand instead, see step 3 there.
 
+## 6. Later: speech and a model that decides
+
+Two modules need a little more, each with a file of its own to double-click in the
+project folder (`.command` on macOS, `.bat` on Windows), once this setup has run:
+
+- **`setup-speech`**, for speaking to the robot ([3-sense.md](3-sense.md#what-was-said-the-speech_signal-component)):
+  installs Whisper and fetches its model (0.5 GB).
+- **`setup-think`**, for a model that chooses what the robot does
+  ([4-think.md](4-think.md#a-decision-as-channels-the-brain_signal-component)): checks
+  [Ollama](https://ollama.com/download), which you install yourself, downloads the
+  model Tev1 (about 4.4 GB) and asks it one sentence.
+
 ## Troubleshooting
 
 - **`command not found: uv`** — open a new terminal (macOS: or run

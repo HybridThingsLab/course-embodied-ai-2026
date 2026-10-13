@@ -3,6 +3,7 @@
     python -m td_reachy.listener                     # listens and prints what it hears
     python -m td_reachy.listener --language en
     python -m td_reachy.listener --post http://127.0.0.1:9982    # tells a speech_signal
+    python -m td_reachy.listener --prepare           # fetch the model, list the microphones
 
 It cuts what the microphone hears into utterances by loudness (an utterance ends after
 a pause), writes each one down with Whisper (the faster-whisper library) and hands the
@@ -34,6 +35,7 @@ import numpy as np
 RATE = 16000          # samples per second, what Whisper takes
 BLOCK = 480           # samples the loudness is looked at over: 30 ms
 MODEL = "small"
+SIZES = {"small": "0.5 GB", "base": "0.15 GB", "large-v3-turbo": "1.6 GB"}  # the download
 LEAST = 0.004         # the loudness (RMS) below which nothing counts as speech
 ABOVE_NOISE = 4.0     # ... and so many times the room's noise, where that is more
 ONSET = 2             # blocks of speech in a row before an utterance begins
@@ -284,6 +286,28 @@ def listen(args, stop):
         print("[listener] stopped", flush=True)
 
 
+def prepare(model, language, out=print):
+    """Before the first use (setup-speech): load the model, which downloads it the
+    first time, and say which microphones there are. Listens to nothing."""
+    size = SIZES.get(model)
+    out(f"[listener] getting Whisper {model} ready"
+        f"{f' (about {size} to download the first time)' if size else ''} ...")
+    try:
+        Whisper(model, language)
+    except SystemExit:
+        raise
+    except Exception as e:  # no connection, a full disk: said plainly
+        raise SystemExit(f"Whisper {model} could not be loaded: {type(e).__name__}: {e}") from None
+    out(f"[listener] Whisper {model} is ready.")
+    try:
+        import sounddevice
+        names = [d["name"] for d in sounddevice.query_devices() if d["max_input_channels"] > 0]
+    except Exception as e:
+        names = []
+        out(f"[listener] the microphones could not be listed: {e}")
+    out("[listener] microphones: " + (", ".join(names) or "none found"))
+
+
 def _watch_stdin(stop):
     """--managed: stop when the parent closes the pipe, or says stop."""
     try:
@@ -308,6 +332,8 @@ def main(argv=None):
                         help=f"seconds of quiet that end an utterance (default: {PAUSE})")
     parser.add_argument("--file", nargs="+", metavar="WAV",
                         help="hear these .wav files instead of the microphone, then stop")
+    parser.add_argument("--prepare", action="store_true",
+                        help="fetch the model, list the microphones and stop")
     parser.add_argument("--managed", action="store_true",
                         help="for a parent program: stop when stdin closes or reads 'stop'")
     args = parser.parse_args(argv)
@@ -316,6 +342,9 @@ def main(argv=None):
         for i, d in enumerate(sounddevice.query_devices()):
             if d["max_input_channels"] > 0:
                 print(f"{i}: {d['name']}")
+        return
+    if args.prepare:
+        prepare(args.model, args.language)
         return
     if args.device and args.device.isdigit():
         args.device = int(args.device)

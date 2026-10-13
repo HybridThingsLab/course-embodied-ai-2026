@@ -241,14 +241,16 @@ switches that listener on and off.
 - **Status** says what the listener is doing, or why it is not listening. **Heard**
   shows the sentence, with Chrome also while it is still being spoken.
 - **Whisper** is a program of this project that the component starts. It needs its
-  packages, once, in a terminal in the project folder:
+  packages and its model (0.5 GB), once: double-click `setup-speech.command` (macOS) or
+  `setup-speech.bat` (Windows) in the project folder. It installs the packages, fetches
+  the model and lists the microphones it finds. By hand, the packages are
 
   ```bash
   uv pip install -e ".[speech]"
   ```
 
-  The first time it listens it downloads its model (0.5 GB), and the system may ask
-  whether TouchDesigner may use the microphone. Writing a sentence down took about
+  and the model is then downloaded the first time Listen is switched on. The first
+  time it listens, the system may ask whether TouchDesigner may use the microphone. Writing a sentence down took about
   half a second on the MacBook Pro it was measured on; a slower computer takes longer.
   On the Listener page, **Model** `large-v3-turbo` (1.6 GB) hears more exactly and
   took 2.4 s there.

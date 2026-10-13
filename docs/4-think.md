@@ -76,12 +76,18 @@ example `tev1: yes (0.83)`.
 
 | Answered By | Where the sentence goes | What it needs |
 | ----------- | ----------------------- | ------------- |
-| **Tev1, on this computer** | nowhere: the model runs on this computer | [Ollama](https://ollama.com/) 0.35 or later, and once in a terminal: `ollama pull tev1` |
+| **Tev1, on this computer** | nowhere: the model runs on this computer | [Ollama](https://ollama.com/) 0.35 or later, and the model: `setup-think`, see below |
 | **Nimble, on this computer** | nowhere | Ollama, and `ollama pull nimble`. A larger model that needs much more memory. |
 | **Jev, in the cloud** | to a service on the internet (OpenRouter), with the options | a key, see below |
 | **Keywords only** | nowhere | nothing. It understands nothing, see below. |
 | **Another model or address** | to **Address**: Ollama on another computer, a relay | **Model** and **Address** |
 
+- **Getting Tev1 ready**: install Ollama from [ollama.com/download](https://ollama.com/download)
+  yourself (its installer asks for the computer's password) and start it. Then
+  double-click `setup-think.command` (macOS) or `setup-think.bat` (Windows) in the
+  project folder: it checks Ollama, downloads Tev1 (about 4.4 GB) and asks it one
+  sentence, so you see an answer before opening TouchDesigner. By hand, the download is
+  `ollama pull tev1`.
 - **The first answer** of a model on this computer takes a few seconds, because the
   model is loaded then. After that an answer took well under a second on the MacBook
   Pro it was measured on (Tev1 0.7 s, Jev 0.3 s). Ollama keeps the model loaded for ten
