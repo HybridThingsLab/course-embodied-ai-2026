@@ -32,7 +32,7 @@ Download it from the project's
 
 ### A face as channels: the face_signal component
 
-[`touchdesigner/face_signal.tox`](../touchdesigner/face_signal.tox) turns MediaPipe's
+[`touchdesigner/components/face_signal.tox`](../touchdesigner/components/face_signal.tox) turns MediaPipe's
 face results into a handful of channels that say where a face is and what it does.
 
 1. Have the `MediaPipe` component in your network (`Reachy_Mediapipe.toe` has it) and
@@ -75,7 +75,7 @@ down, one Multiply turns the head towards the face on both axes.
 
 ### A hand as channels: the hand_signal component
 
-[`touchdesigner/hand_signal.tox`](../touchdesigner/hand_signal.tox) turns MediaPipe's
+[`touchdesigner/components/hand_signal.tox`](../touchdesigner/components/hand_signal.tox) turns MediaPipe's
 hand results into channels that say where a hand is, how it is held and what its
 fingers do: enough to play the robot like a puppet.
 
@@ -156,7 +156,7 @@ A signal never moves anything by itself. Some ways to play the robot with a hand
 
 ## A voice as channels: the voice_signal component
 
-[`touchdesigner/voice_signal.tox`](../touchdesigner/voice_signal.tox) listens to a
+[`touchdesigner/components/voice_signal.tox`](../touchdesigner/components/voice_signal.tox) listens to a
 microphone and says how loud it is and whether someone is speaking. Drag it into your
 network: it starts with the computer's default microphone. The first time, the system
 may ask whether TouchDesigner may use the microphone. Only the loudness is measured;
@@ -211,7 +211,7 @@ A signal never moves anything by itself. Two reflexes, and a way to take turns:
 
 ## What was said: the speech_signal component
 
-[`touchdesigner/speech_signal.tox`](../touchdesigner/speech_signal.tox) gives what
+[`touchdesigner/components/speech_signal.tox`](../touchdesigner/components/speech_signal.tox) gives what
 someone says as a sentence, and says as channels what the listener is doing. It does
 not listen itself. On its Speech page, **Heard By** chooses who does, and **Listen**
 switches that listener on and off.

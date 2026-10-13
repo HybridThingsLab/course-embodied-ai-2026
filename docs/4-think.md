@@ -46,7 +46,7 @@ the steps.
 
 ## A decision as channels: the brain_signal component
 
-[`touchdesigner/brain_signal.tox`](../touchdesigner/brain_signal.tox) takes a sentence
+[`touchdesigner/components/brain_signal.tox`](../touchdesigner/components/brain_signal.tox) takes a sentence
 and a list of options and asks a **decision model** which option fits. A decision
 model is not a chat model: it gets a text and the options, each with a line that says
 when it fits, and returns how likely each option is. Nothing else comes back, no text.

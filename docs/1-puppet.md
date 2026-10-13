@@ -38,7 +38,7 @@ and wire it into `sum`. Start by changing the Amplitude and Frequency of the lay
 
 ## The reachy_hub component
 
-[`touchdesigner/reachy_hub.tox`](../touchdesigner/reachy_hub.tox) packs the robot
+[`touchdesigner/components/reachy_hub.tox`](../touchdesigner/components/reachy_hub.tox) packs the robot
 connection into one component. Drag it from Finder / Explorer into your network.
 
 - **Input:** wire in CHOP channels named after the robot's controls
@@ -65,7 +65,7 @@ port — use the hub's output.
 
 ## Without a robot: the reachy_twin component
 
-[`touchdesigner/reachy_twin.tox`](../touchdesigner/reachy_twin.tox) is the robot as a
+[`touchdesigner/components/reachy_twin.tox`](../touchdesigner/components/reachy_twin.tox) is the robot as a
 picture inside TouchDesigner. It needs no robot, no simulator and none of the project's
 software: drag it into a network and it works, also on a computer where the project is
 not set up.

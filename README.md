@@ -25,8 +25,8 @@ the same TouchDesigner files drive the real robot unchanged.
 each other. They take the chain from its far end: first what moves (Puppet, Animate),
 then what is sensed (Sense), then what is decided (Think), then all of it as one
 behaviour (Compose) and on another body (Extend). The first four come with a project
-to open (a `.toe`) or components to drag into your own (`.tox`), all in
-[`touchdesigner/`](touchdesigner/).
+to open (a `.toe`, in [`touchdesigner/`](touchdesigner/)) or components to drag into
+your own (`.tox`, in [`touchdesigner/components/`](touchdesigner/components/)).
 
 | | Module | What it is about | Start with |
 | - | ------ | ---------------- | ---------- |
@@ -53,13 +53,13 @@ TouchDesigner operators that you build, and that stays open to change.
 3. **Open `touchdesigner/puppet_start.toe`**, click `reachy_hub`, press **Start** on
    its Station page and wait for `ready`. The simulated robot starts to move.
 
-For a first look without any setup, drag `touchdesigner/reachy_twin.tox` into a new
-TouchDesigner project: it is the robot as a picture and needs nothing else.
+For a first look without any setup, drag `touchdesigner/components/reachy_twin.tox` into
+a new TouchDesigner project: it is the robot as a picture and needs nothing else.
 
 ## The components
 
-Each is a `.tox` file in [`touchdesigner/`](touchdesigner/): drag it into a network.
-The names link to their section in the module's guide.
+Each is a `.tox` file in [`touchdesigner/components/`](touchdesigner/components/): drag
+it into a network. The names link to their section in the module's guide.
 
 | Component | What it does | Module |
 | --------- | ------------ | ------ |
@@ -75,7 +75,7 @@ The names link to their section in the module's guide.
 
 `face_signal` and `hand_signal` read the
 [MediaPipe](docs/3-sense.md#camera-tracking-with-mediapipe) component, a separate
-download. Also in the folder: `basic_control.toe`, the smallest example there is
+download. Next to the starters in `touchdesigner/`: `basic_control.toe`, the smallest example there is
 (sliders straight to the robot).
 
 ## How it reaches the robot

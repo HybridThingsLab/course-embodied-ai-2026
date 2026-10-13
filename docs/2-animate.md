@@ -52,7 +52,7 @@ applies: the more the head tilts, the less it shifts.
 
 ## Playing a clip: the clip_player component
 
-[`touchdesigner/clip_player.tox`](../touchdesigner/clip_player.tox) plays a clip from
+[`touchdesigner/components/clip_player.tox`](../touchdesigner/components/clip_player.tox) plays a clip from
 its first sample to its last. Drag it into your network.
 
 - **Clip** lists the clip files in the clips folder. In this project that is
@@ -96,7 +96,7 @@ the clip's length, and a **Lookup CHOP** reads the clip at that point.
 
 ## Making a clip: the recorder component
 
-[`touchdesigner/recorder.tox`](../touchdesigner/recorder.tox) makes a clip from what
+[`touchdesigner/components/recorder.tox`](../touchdesigner/components/recorder.tox) makes a clip from what
 arrives on its input: the pose a robot reports (`reachy_hub`'s output), but just as
 well a slider or a face. Its output is the clip so far — wire it into a `clip_player`
 to play, loop or scrub it.
