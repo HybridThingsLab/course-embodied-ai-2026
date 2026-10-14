@@ -3,7 +3,7 @@
 Module 4: a sentence, typed or spoken, goes in and a decision comes out. A model
 chooses one of your options, and the robot plays that option's clip.
 
-Before: [Sense](3-sense.md).
+Before: [Sense](3-sense.md). Next: [Compose](5-compose.md).
 
 ## A sentence in, a clip out: think_start.toe
 

@@ -30,8 +30,9 @@ Each module has a project to open, in [`touchdesigner/`](touchdesigner/), and a 
 | 2 | [Animate](docs/2-animate.md) | Movements over time: play clips such as yes and no, and make your own. | `animate_start.toe` |
 | 3 | [Sense](docs/3-sense.md) | A face, a hand, a voice and a spoken sentence, as numbers to react to. | `sense_start.toe` |
 | 4 | [Think](docs/4-think.md) | A sentence goes in, a model chooses one of your options, the robot plays its clip. | `think_start.toe` |
+| 5 | [Compose](docs/5-compose.md) | All of it as one behaviour: it sleeps, wakes, looks, listens and answers, each a layer in a mixer. | `compose_start.toe` |
 
-Compose (all of it as one behaviour) and Extend (another body) follow later.
+Extend (another body) follows later.
 
 The idea behind all of them: a **signal** such as `face/x`, `voice/level` or `brain/yes`
 says what happens and never moves anything. The robot takes channels named after its
@@ -54,6 +55,7 @@ network.
 | [`voice_signal`](docs/3-sense.md#a-voice-the-voice_signal-component) | How loud it is, and whether someone speaks. |
 | [`speech_signal`](docs/3-sense.md#what-was-said-the-speech_signal-component) | What was said, as a sentence. |
 | [`brain_signal`](docs/4-think.md#a-decision-the-brain_signal-component) | A sentence in, a model's choice among your options out. |
+| [`mixer`](docs/5-compose.md#mixing-layers-the-mixer-component) | Mixes layers of channels by name: each adds to or takes over what is below it, by its weight. |
 
 ## Also in the guides
 
