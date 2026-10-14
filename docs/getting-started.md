@@ -23,7 +23,7 @@ required. Works on **macOS** and **Windows**; assumes basic command-line familia
 ## 1. Get the code
 
 ```bash
-git clone https://github.com/HybridThingsLab/sense-think-move.git
+git clone https://github.com/HybridThingsLab/course-embodied-interaction-ai-2027.git sense-think-move
 ```
 
 ```bash
