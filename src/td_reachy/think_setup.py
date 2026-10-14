@@ -34,8 +34,9 @@ SIZES = {"tev1": "4.4 GB", "nimble": "9.3 GB"}   # what `ollama pull` downloads
 SENTENCE = "Hello, is anyone there?"
 QUESTION = "Which reaction fits what was said to the robot?"
 OPTIONS = {
-    "yes": "A nod. The robot agrees, says yes, or likes what it hears.",
-    "no": "A shake of the head. The robot disagrees, says no, or does not want this.",
+    "yes": "A nod. The robot agrees with what was said, says yes, or likes it.",
+    "no": "A shake of the head. The robot disagrees, says no, does not want this, or is "
+          "told to stop or leave something be.",
     "look_around": "A look around. Someone greets the robot, calls it, or asks who is there.",
     "nothing": "No reaction. What was said is not meant for the robot or needs no answer.",
 }
