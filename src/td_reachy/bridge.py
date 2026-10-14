@@ -12,7 +12,7 @@ pose back:
 
 It deliberately does only what TouchDesigner can't: drive the robot, put it in
 **teach mode** (compliant, back-drivable), and **stream its pose out**. Recording,
-saving and playing motion back are TouchDesigner nodes (see docs/touchdesigner.md).
+saving and playing motion back are TouchDesigner nodes (see docs/2-animate.md).
 The OUT addresses are the IN addresses, so a recording plays straight back.
 
 Two UDP ports:

@@ -1,155 +1,79 @@
 # Getting started
 
-From nothing installed to a **Reachy Mini moving in a 3D simulation** — no robot
-required. Works on **macOS** and **Windows**; assumes basic command-line familiarity.
+From nothing installed to a simulated Reachy Mini moving in TouchDesigner. Works on
+macOS and Windows. No robot needed.
 
-> **Reading the commands:** type them exactly as shown, one at a time. Everything —
-> including `.[sim]` — is literal.
+## 1. Install TouchDesigner
 
-> No physical robot needed. To use real hardware later, see
-> [working-with-the-robot.md](working-with-the-robot.md) — same files, only the way
-> you start things changes.
+Download the free **Non-Commercial** edition from
+[derivative.ca/download](https://derivative.ca/download) and install it. It needs a
+reasonably capable graphics card.
 
-## How it works
-
-- **The daemon** owns the robot (or the simulator) and runs in the background.
-- **The bridge** passes messages between TouchDesigner and the daemon.
-- **The station** starts both with one command (Step 4).
-
-```
-  TouchDesigner ──OSC──▶ bridge ──▶ daemon ──▶ simulated (or real) robot
-```
-
-## 1. Get the code
+## 2. Get the code
 
 ```bash
 git clone https://github.com/HybridThingsLab/course-embodied-interaction-ai-2027.git sense-think-move
 ```
 
-```bash
-cd sense-think-move
-```
+No git? [GitHub Desktop](https://desktop.github.com/) or **Code → Download ZIP** on the
+repository's page work too.
 
-No git? [GitHub Desktop](https://desktop.github.com/) or the repository's
-**Code → Download ZIP** also work.
+## 3. Run the setup
 
-## 2. Run the setup
+In the project folder, double-click `setup.command` (macOS) or `setup.bat` (Windows).
+It installs the robot software and the simulator (a few hundred MB) and starts them
+once as a check, which can take a few minutes the first time. It ends with **Setup
+complete**. Running it again is safe.
 
-In the project folder, double-click:
+If the system blocks the file:
 
-- **macOS:** `setup.command`
-- **Windows:** `setup.bat`
+- **macOS** ("cannot be opened"): System Settings → Privacy & Security → **Open
+  Anyway**, or run `bash setup.command` in a terminal in the project folder.
+- **Windows** ("Windows protected your PC"): **More info → Run anyway**.
 
-It installs [`uv`](https://docs.astral.sh/uv/) (the tool that manages Python) if
-needed, creates the project's own Python 3.12 environment, installs the robot
-software and the simulator (a few hundred MB), and finally starts everything once as
-a check. That first start can take a few minutes. It ends with **Setup complete** —
-then continue with [step 5](#5-move-it-from-touchdesigner). Running it again is safe.
+## 4. Open the first project
 
-If the system blocks the file because it was downloaded:
+Open `touchdesigner/puppet_start.toe`, click `reachy_hub`, press **Start** on its
+Station page and wait until **Status** says `ready`. A window opens with the simulated
+robot, and it starts to move. Continue with [Puppet](1-puppet.md).
 
-- **macOS** ("cannot be opened" / "Apple could not verify"): open **System Settings →
-  Privacy & Security** and click **Open Anyway** next to the message, or run
-  `bash setup.command` in a terminal in the project folder.
-- **Windows** ("Windows protected your PC"): click **More info → Run anyway**.
+## 5. Later: speech and a model
 
-Prefer to see every step? Steps 3 and 4 below do the same by hand.
+Two modules need one more setup each, also in the project folder:
 
-## 3. Or by hand: install `uv`
+- **`setup-speech`**, for [Sense](3-sense.md#what-was-said-the-speech_signal-component):
+  Whisper, which writes down what is said (0.5 GB).
+- **`setup-think`**, for [Think](4-think.md#a-decision-the-brain_signal-component):
+  install [Ollama](https://ollama.com/download) first; the setup then downloads the
+  model Tev1 (4.4 GB).
 
-[`uv`](https://docs.astral.sh/uv/) manages the Python environment and installs the
-required Python 3.12 for you.
+## If Start does not work: the terminal
 
-- **macOS:** `curl -LsSf https://astral.sh/uv/install.sh | sh`
-- **Windows (PowerShell):** `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`
+**Start** on `reachy_hub` runs the **station**: the simulator (or the connection to the
+real robot) and a bridge that passes TouchDesigner's messages on. Its Status says what
+went wrong, and its full output is in `station.log` in the project folder. To see it
+directly, start the station in a terminal, in the project folder.
 
-Open a new terminal afterward, then check with `uv --version`.
-
-### Set up the project
-
-Run these three commands **one at a time, in this order**, from the project folder.
-Wait for each to finish before typing the next.
-
-**a. Create an isolated Python 3.12 environment** (a `.venv` folder):
+macOS:
 
 ```bash
-uv venv --python 3.12 --managed-python
-```
-
-`--managed-python` makes `uv` use its own copy of Python 3.12, whatever else is
-installed on the computer, so every computer runs the same Python.
-
-**b. Activate it** — the prompt then starts with the folder name in parentheses:
-
-- macOS: `source .venv/bin/activate`
-- Windows (PowerShell): `.venv\Scripts\Activate.ps1`
-
-**c. Install the project** — the robot software, the bridge and the MuJoCo
-simulator (a few hundred MB, the first time):
-
-```bash
-uv pip install -e ".[sim]"
-```
-
-Steps a and c are needed only once. Step b is needed **in every new terminal**:
-if a command says `No module named td_reachy`, activate first.
-
-## 4. Start the simulator and the bridge
-
-```bash
+source .venv/bin/activate
 python -m td_reachy.station
 ```
 
-After 10–20 seconds a window opens with the robot, it wakes up, and the terminal
-ends with the line below. The very first start after installing can take a few
-minutes.
+Windows (PowerShell): `.venv\Scripts\Activate.ps1`, then the same `python` line.
 
-```
-[station] ready: TouchDesigner: OSC Out CHOP → 127.0.0.1:7000, OSC In CHOP ← port 7001
-```
+Wait for `[station] ready` and leave it running; **Ctrl+C** stops it. Add `--headless`
+for no simulator window, or `--robot` for the real robot.
 
-Leave it running while you work; **Ctrl+C** stops everything. On a slow machine,
-`python -m td_reachy.station --headless` runs the simulator without the window.
-
-Prefer a graphical app? Pollen's
-[Reachy Mini desktop app](https://github.com/pollen-robotics/reachy-mini-desktop-app/releases)
-can run the simulator too. Start it in **simulation mode** first; the station then
-uses it and only adds the bridge.
-
-## 5. Move it from TouchDesigner
-
-Install TouchDesigner ([touchdesigner.md](touchdesigner.md), step 1), then open the
-first project, `touchdesigner/puppet_start.toe`: [1-puppet.md](1-puppet.md). To send
-values by hand instead, see step 3 there.
-
-## 6. Later: speech and a model that decides
-
-Two modules need a little more, each with a file of its own to double-click in the
-project folder (`.command` on macOS, `.bat` on Windows), once this setup has run:
-
-- **`setup-speech`**, for speaking to the robot ([3-sense.md](3-sense.md#what-was-said-the-speech_signal-component)):
-  installs Whisper and fetches its model (0.5 GB).
-- **`setup-think`**, for a model that chooses what the robot does
-  ([4-think.md](4-think.md#a-decision-as-channels-the-brain_signal-component)): checks
-  [Ollama](https://ollama.com/download), which you install yourself, downloads the
-  model Tev1 (about 4.4 GB) and asks it one sentence.
-
-## Troubleshooting
-
-- **`command not found: uv`** — open a new terminal (macOS: or run
-  `export PATH="$HOME/.local/bin:$PATH"`).
-- **`No module named td_reachy`** or **`missing Python packages`** — activate the
-  environment in this terminal (step 3b).
-- **Windows: `Activate.ps1 … running scripts is disabled`** — run
-  `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`, or use
+- **`No module named td_reachy`**: the first line was left out, or the setup has not
+  run.
+- **Windows: `running scripts is disabled`**: run
+  `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, or use
   `.venv\Scripts\activate.bat`.
-- **The station stops with an error** — its last `[station] error:` line says what
-  to do. More in [touchdesigner.md](touchdesigner.md#troubleshooting) and
-  [simulation.md](simulation.md).
+- **`UDP port 7000 is taken`** or **`port 8000 is taken`**: an earlier station is still
+  running. Quit it, or on macOS `lsof -ti udp:7000 | xargs kill` (for 8000:
+  `tcp:8000`); on Windows `netstat -ano | findstr 7000`, then
+  `taskkill /PID <the number> /F`.
 
-## More
-
-[touchdesigner.md](touchdesigner.md) · the modules: [1-puppet.md](1-puppet.md),
-[2-animate.md](2-animate.md), [3-sense.md](3-sense.md), [4-think.md](4-think.md) ·
-[robot-channels.md](robot-channels.md) · [simulation.md](simulation.md) ·
-[working-with-the-robot.md](working-with-the-robot.md)
+More in [simulator-and-robot.md](simulator-and-robot.md#when-something-goes-wrong).

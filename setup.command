@@ -38,6 +38,6 @@ echo "The very first start can take a few minutes."
 .venv/bin/python -m td_reachy.station --headless --check || fail "the check did not pass"
 
 printf '\n\033[32mSetup complete.\033[0m\n'
-echo "Next: install TouchDesigner and follow docs/touchdesigner.md."
+echo "Next: open touchdesigner/puppet_start.toe in TouchDesigner (docs/getting-started.md, step 4)."
 echo "From now on the robot software starts from TouchDesigner (reachy_hub's Station page),"
 echo "or in a terminal: .venv/bin/python -m td_reachy.station"

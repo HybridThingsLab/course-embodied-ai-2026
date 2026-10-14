@@ -23,7 +23,7 @@ acceleration is the anti-tip parameter — raise the speed first. This is a
 *backstop*, not a way to make the base faster.
 
 Only the real-robot backend is patched; `--sim` / `--mockup-sim` run unchanged
-(on macOS the MuJoCo sim still needs `mjpython`, see docs/simulation.md).
+(on macOS the MuJoCo sim still needs `mjpython`; the station starts it so).
 """
 
 import logging
