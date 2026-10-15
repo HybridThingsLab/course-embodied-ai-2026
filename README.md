@@ -1,14 +1,17 @@
-# Sense · Think · Move
+winter term 2026/2027
+Technical University of Applied Sciences Augsburg, Prof. Andreas Muxel & Mathias Hradecsni
+([Hybrid Things Lab](https://github.com/HybridThingsLab))
+
+# Physical Interfaces / Embodied Interaction with AI
+AI* at the Technical University of Applied Sciences Augsburg
+
+## Sense · Think · Move
 
 Give a thing a behaviour in [TouchDesigner](https://derivative.ca/): what it does when
 nothing happens, how it reacts to a face or a voice, and how it answers what is said to
 it. The body to begin with is the
 [Reachy Mini](https://www.pollen-robotics.com/reachy-mini/) robot: a head that turns,
 tilts and shifts, two antennas and a turning base.
-
-The TouchDesigner workshop of the course *Physical Interfaces: Embodied Interaction with
-AI* at the Technical University of Applied Sciences Augsburg
-([Hybrid Things Lab](https://github.com/HybridThingsLab)).
 
 **No robot needed:** everything runs with a simulated robot on macOS and Windows, and
 the same files drive the real one.
