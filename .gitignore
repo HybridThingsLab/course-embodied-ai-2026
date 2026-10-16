@@ -15,7 +15,7 @@ Backup/
 *.[0-9][0-9].toe
 
 # The MediaPipe component (~172 MB): downloaded separately, see docs/3-sense.md
-touchdesigner/mediapipe/toxes/
+touchdesigner/mediapipe/toxes/MediaPipe.tox
 
 # What the robot software and the listener write while they run
 *.log
