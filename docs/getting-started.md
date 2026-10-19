@@ -37,15 +37,17 @@ Open `touchdesigner/puppet_start.toe`, click `reachy_hub`, press **Start** on it
 Station page and wait until **Status** says `ready`. A window opens with the simulated
 robot, and it starts to move. Continue with [Puppet](1-puppet.md).
 
-## 5. Later: speech and a model
+## 5. Later: listening, a model, speaking
 
-Two modules need one more setup each, also in the project folder:
+Some parts need one more setup each, also in the project folder:
 
-- **`setup-speech`**, for [Sense](3-sense.md#what-was-said-the-speech_signal-component):
+- **`setup-listen`**, for [Sense](3-sense.md#what-was-said-the-speech_signal-component):
   Whisper, which writes down what is said (0.5 GB).
 - **`setup-think`**, for [Think](4-think.md#a-decision-the-brain_signal-component):
   install [Ollama](https://ollama.com/download) first; the setup then downloads the
   model Tev1 (4.4 GB).
+- **`setup-speak`**, for [Think](4-think.md#a-voice-the-speaker-component): Kokoro, the
+  robot's voice (350 MB). At the end it says a sentence.
 
 ## If Start does not work: the terminal
 

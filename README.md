@@ -35,8 +35,6 @@ Each module has a project to open, in [`touchdesigner/`](touchdesigner/), and a 
 | 4 | [Think](docs/4-think.md) | A sentence goes in, a model chooses one of your options, the robot plays its clip. | `think_start.toe` |
 | 5 | [Compose](docs/5-compose.md) | All of it as one behaviour: it sleeps, wakes, looks, listens and answers, each a layer in a mixer. | `compose_start.toe` |
 
-Extend (another body) follows later.
-
 The idea behind all of them: a **signal** such as `face/x`, `voice/level` or `brain/yes`
 says what happens and never moves anything. The robot takes channels named after its
 controls, such as `reachy/head/yaw`, through `reachy_hub`. In between is the
@@ -58,6 +56,7 @@ network.
 | [`voice_signal`](docs/3-sense.md#a-voice-the-voice_signal-component) | How loud it is, and whether someone speaks. |
 | [`speech_signal`](docs/3-sense.md#what-was-said-the-speech_signal-component) | What was said, as a sentence. |
 | [`brain_signal`](docs/4-think.md#a-decision-the-brain_signal-component) | A sentence in, a model's choice among your options out. |
+| [`speaker`](docs/4-think.md#a-voice-the-speaker-component) | A voice: a sentence in, spoken by Kokoro, Edge's voices, Supertonic or Piper, and how loud it is. |
 | [`mixer`](docs/5-compose.md#mixing-layers-the-mixer-component) | Mixes layers of channels by name: each adds to or takes over what is below it, by its weight. |
 
 ## Also in the guides

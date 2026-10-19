@@ -21,10 +21,20 @@ dependencies = [
 [project.optional-dependencies]
 # The MuJoCo simulator (3D window). Install with: uv pip install -e ".[sim]"
 sim = ["reachy-mini[mujoco]"]
-# Speech to text on this computer (Whisper), for the listener behind speech_signal.
-# Install with: uv pip install -e ".[speech]". Its model (about 0.5 GB) is downloaded
-# the first time it listens.
-speech = ["faster-whisper>=1.2", "sounddevice>=0.5"]
+# Listening: speech to text on this computer (Whisper), for the listener behind
+# speech_signal. setup-listen installs it, or: uv pip install -e ".[listen]". Its model
+# (about 0.5 GB) is downloaded the first time it listens.
+listen = ["faster-whisper>=1.2", "sounddevice>=0.5"]
+# The lab's UR5e arm, for td_reachy.ur_bridge. Install with: uv pip install -e ".[ur]".
+# Built for Windows and Linux; on a Mac ur_rtde is built from source (cmake, boost, pybind11).
+ur = ["ur-rtde>=1.6"]
+# Speaking: a voice for the robot, the speaker behind a speaker component
+# (src/td_reachy/speaker.py), with four engines - Kokoro, edge-tts (Microsoft's cloud),
+# Supertonic, Piper. setup-speak installs it, or: uv pip install -e ".[speak]". Kokoro's
+# model (about 350 MB), Supertonic's (385 MB) and each Piper voice (about 60 MB) are
+# downloaded the first time they speak.
+speak = ["kokoro-onnx>=0.6.1", "edge-tts>=7.3.1", "supertonic>=1.3.1", "piper-tts>=1.8",
+         "soundfile>=0.12", "sounddevice>=0.5"]
 
 [build-system]
 requires = ["hatchling"]

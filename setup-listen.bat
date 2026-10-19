@@ -1,6 +1,6 @@
 @echo off
-rem Speech for the speech_signal component, on Windows: double-click this file, or run
-rem setup-speech.bat in a terminal. Run setup.bat first.
+rem Listening, for the speech_signal component, on Windows: double-click this file, or
+rem run setup-listen.bat in a terminal. Run setup.bat first.
 rem Installs Whisper's packages into the project's environment and fetches its model,
 rem about 0.5 GB, so that switching Listen on in TouchDesigner works at once.
 rem Safe to run again: what is already there is skipped.
@@ -17,7 +17,7 @@ echo Found.
 
 echo.
 echo == 2/3  Whisper's packages
-uv pip install --python .venv\Scripts\python.exe -e ".[speech]"
+uv pip install --python .venv\Scripts\python.exe -e ".[listen]"
 if errorlevel 1 (set "MSG=the installation failed" & goto fail)
 
 echo.
@@ -26,7 +26,7 @@ echo == 3/3  Whisper's model, and the microphones
 if errorlevel 1 (set "MSG=Whisper could not be made ready" & goto fail)
 
 echo.
-echo Speech is ready.
+echo Listening is ready.
 echo In TouchDesigner: click speech_signal, Speech page, switch Listen on.
 echo The first time, Windows may ask whether desktop apps may use the microphone.
 

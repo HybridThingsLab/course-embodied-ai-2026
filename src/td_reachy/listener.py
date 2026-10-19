@@ -10,7 +10,8 @@ a pause), writes each one down with Whisper (the faster-whisper library) and han
 sentence on. Nothing leaves the computer. In TouchDesigner the speech_signal component
 starts it (Heard By: Whisper) with --post and --managed, and stops it again.
 
-It needs the optional packages:  uv pip install -e ".[speech]"
+It needs the optional packages: double-click setup-listen in the project folder, or
+uv pip install -e ".[listen]" (setup-listen also fetches the model).
 The model is downloaded the first time (small: 0.5 GB). Whisper works on a window of
 30 seconds whatever the length of the utterance, so a sentence takes as long as the
 model needs for that: with small about half a second on a laptop's processor, with
@@ -146,8 +147,9 @@ class Whisper:
             import ctranslate2
             from faster_whisper import WhisperModel
         except ImportError as e:
-            raise SystemExit(f"{e}. Install the listener's packages first: "
-                             'uv pip install -e ".[speech]"') from None
+            raise SystemExit(f"{e}. Install the listener's packages first: double-click "
+                             'setup-listen in the project folder (or: uv pip install -e '
+                             '".[listen]")') from None
         self.language = None if language in ("", "auto") else language
         if ctranslate2.get_cuda_device_count():
             where = {"device": "cuda", "compute_type": "float16"}
@@ -210,8 +212,9 @@ def microphone(device, blocks):
     try:
         import sounddevice
     except ImportError as e:
-        raise SystemExit(f"{e}. Install the listener's packages first: "
-                         'uv pip install -e ".[speech]"') from None
+        raise SystemExit(f"{e}. Install the listener's packages first: double-click "
+                         'setup-listen in the project folder (or: uv pip install -e '
+                         '".[listen]")') from None
 
     def heard(indata, frames, when, status):
         blocks.put(indata[:, 0].copy())
@@ -287,7 +290,7 @@ def listen(args, stop):
 
 
 def prepare(model, language, out=print):
-    """Before the first use (setup-speech): load the model, which downloads it the
+    """Before the first use (setup-listen): load the model, which downloads it the
     first time, and say which microphones there are. Listens to nothing."""
     size = SIZES.get(model)
     out(f"[listener] getting Whisper {model} ready"

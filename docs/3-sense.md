@@ -147,7 +147,7 @@ switches it on and off, and **Language** is Deutsch or English.
 - **Output 1** has the channels below. **Output 2** is the last sentence, as a table:
   wire it into the second input of a
   [`brain_signal`](4-think.md#a-decision-the-brain_signal-component).
-- **Whisper** needs a setup of its own once: `setup-speech` in the project folder.
+- **Whisper** needs a setup of its own once: `setup-listen` in the project folder.
 - **Chrome** opens a page: keep that tab open and allow the microphone. The first time,
   the page may show a button to download Chrome's speech model.
 - It hears everything the microphone picks up: everyone in the room, a film, the next

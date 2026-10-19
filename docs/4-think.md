@@ -25,6 +25,8 @@ It starts with the model Tev1, which needs `setup-think`
 | `waiting` → `tilt` → `as_roll` → `ease` | while it waits for the answer, the head tilts |
 | `base` and `motion` (Math: Combine CHOPs *Add*) | everything added up |
 | `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back |
+| `lines` (Table) → `say_line` → `speaker` (a `speaker`) | the robot says the line of the option chosen; `talk_*` move the antennas with its voice |
+| `listen_gate` → `heard` | what `speech` hears goes to `brain`, unless the robot was speaking just then |
 
 The options are yours. Change a description and ask again: the description is all the
 model knows about an option. For a new option, add a row to `options`, copy a `pick_`
@@ -33,6 +35,13 @@ wire it into `motion`.
 
 To say the sentence instead of typing it, click `speech` and switch **Listen** on
 ([`speech_signal`](3-sense.md#what-was-said-the-speech_signal-component)).
+
+The robot answers out loud: `speaker` says the line in `lines` for the option chosen
+([below](#a-voice-the-speaker-component)), from the column of its **Language**: `en` or
+`de`. For German, choose *Deutsch* on `speaker` and on `speech`, and an **Engine** other
+than Kokoro, which speaks English only. The microphone hears the robot too, so
+`listen_gate` passes on nothing heard while it speaks or in the 2 s after: wait a
+moment before you answer.
 
 ## A decision: the brain_signal component
 
@@ -77,3 +86,35 @@ The menu also has Nimble, a larger model for Ollama, and any other model or addr
 
 **Try:** hesitate when unsure: **Select** (`brain/confidence`) → **Logic** (*Off When
 Outside Bounds*, Bounds 0 to 0.45) gives 1 after an unsure answer.
+
+## A voice: the speaker component
+
+`speaker.tox` (in `touchdesigner/components`) says a sentence. Type it into **Text** on
+the Speaker page and press Enter, or call `op('speaker').Say('Hello!')` from Python.
+It needs a setup of its own once: double-click `setup-speak` in the project folder. It
+installs the packages, downloads Kokoro and says a sentence.
+
+| Engine | Where | Languages | The first time |
+| ------ | ----- | --------- | -------------- |
+| **Kokoro** (the default) | on this computer | English | downloads 350 MB |
+| **Edge's voices** | Microsoft's cloud: the sentence leaves this computer | English, German | nothing; needs the internet |
+| **Supertonic** | on this computer | English, German | downloads 385 MB |
+| **Piper** | on this computer, the fastest | English, German | downloads each voice (60 MB) |
+
+**Voice** lists the engine's voices in that **Language**; **Speed** goes from 0.5 to 2.
+On the Program page, **Output** is where the sound goes: `Reachy Mini Audio` for the
+robot's own speaker, empty for this computer's.
+
+- **Input 1** (optional): a sentence, for example `speech_signal`'s second output. It is
+  said when it changes.
+
+| Channel | Values | Meaning |
+| ------- | ------ | ------- |
+| `speaker/speaking` | 0 or 1 | 1 while it speaks |
+| `speaker/level` | 0 … 1 | how loud it is now |
+| `speaker/done` | 0 or 1 | 1 for a moment when a sentence has been said |
+| `speaker/silence` | seconds | how long ago it last stopped speaking |
+| `speaker/age` | seconds | how long ago the last sentence began |
+
+**Try:** `speaker/level` as a nod: **Select** → **Math** (multiply by 4) → **Rename**
+to `reachy/head/pitch` → into `motion`.
