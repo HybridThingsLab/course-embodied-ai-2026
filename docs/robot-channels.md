@@ -1,7 +1,8 @@
 # The robot's channels
 
-What the Reachy Mini can be told. `reachy_hub` takes CHOP channels with these names.
-Without the hub, an OSC Out CHOP sends them as addresses with a leading `/`
+What the Reachy Mini can be told. `reachy_hub` takes CHOP channels with these names:
+[`touchdesigner/basic_control.toe`](../touchdesigner/basic_control.toe) has a slider for
+each, wired into the hub. Without the hub, an OSC Out CHOP sends them as addresses with a leading `/`
 ([below](#without-the-hub-osc-by-hand)).
 
 ## OSC address map
@@ -45,8 +46,6 @@ Add an **OSC Out CHOP** and set **Network Address** `127.0.0.1`, **Network Port*
 `7000`. It sends every channel wired into it as a message: the channel
 `reachy/head/pitch` becomes `/reachy/head/pitch`. Quick test: a **Constant CHOP** with
 a channel `reachy/head/pitch` into it, then drag its value: the head nods.
-[`touchdesigner/basic_control.toe`](../touchdesigner/basic_control.toe) is the same with
-sliders.
 
 The robot's measured pose comes back on port `7001`: an **OSC In CHOP** with **Network
 Port** `7001` (not in the same project as `reachy_hub`, which listens there itself).
