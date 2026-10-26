@@ -12,7 +12,7 @@ reasonably capable graphics card.
 ## 2. Get the code
 
 ```bash
-git clone https://github.com/HybridThingsLab/course-embodied-interaction-ai-2027.git sense-think-move
+git clone https://github.com/HybridThingsLab/course-embodied-ai-2026.git sense-think-move
 ```
 
 No git? [GitHub Desktop](https://desktop.github.com/) or **Code → Download ZIP** on the
@@ -31,9 +31,12 @@ If the system blocks the file:
   Anyway**, or run `bash setup.command` in a terminal in the project folder.
 - **Windows** ("Windows protected your PC"): **More info → Run anyway**.
 
+If it still does not run, or you would rather type each step yourself:
+[manual-install.md](manual-install.md).
+
 ## 4. Open the first project
 
-Open `touchdesigner/puppet_start.toe`, click `reachy_hub`, press **Start** on its
+Open `touchdesigner/01_puppet.toe`, click `reachy_hub`, press **Start** on its
 Station page and wait until **Status** says `ready`. A window opens with the simulated
 robot, and it starts to move. Continue with [Puppet](1-puppet.md).
 
@@ -43,9 +46,9 @@ Some parts need one more setup each, also in the project folder:
 
 - **`setup-listen`**, for [Sense](3-sense.md#what-was-said-the-speech_signal-component):
   Whisper, which writes down what is said (0.5 GB).
-- **`setup-think`**, for [Think](4-think.md#a-decision-the-brain_signal-component):
-  install [Ollama](https://ollama.com/download) first; the setup then downloads the
-  model Tev1 (4.4 GB).
+- **`setup-think`**, for [Think](4-think.md#tev1-step-by-step): install Ollama from
+  [its site](https://ollama.com/download) and open it first; the setup then downloads
+  the model Tev1 (4.4 GB).
 - **`setup-speak`**, for [Think](4-think.md#a-voice-the-speaker-component): Kokoro, the
   robot's voice (350 MB). At the end it says a sentence.
 

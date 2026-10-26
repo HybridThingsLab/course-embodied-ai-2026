@@ -19,8 +19,9 @@ the same files drive the real one.
 
 1. Install TouchDesigner, get this repository and run its setup:
    [docs/getting-started.md](docs/getting-started.md).
-2. Open `touchdesigner/puppet_start.toe`, click `reachy_hub`, press **Start** on its
-   Station page and wait for `ready`. The robot starts to move.
+2. Open `touchdesigner/01_puppet.toe`: `reachy_model` shows the robot. Click
+   `reachy_hub`, press **Start** on its Station page and wait for `ready`: the
+   simulator starts, and the robot moves.
 
 ## The modules
 
@@ -28,11 +29,11 @@ Each module has a project to open, in [`touchdesigner/`](touchdesigner/), and a 
 
 | | Module | What it is about | Open |
 | - | ------ | ---------------- | ---- |
-| 1 | [Puppet](docs/1-puppet.md) | Move the robot directly: sliders, oscillators and noise become a character. | `puppet_start.toe` |
-| 2 | [Animate](docs/2-animate.md) | Movements over time: play clips such as yes and no, and make your own. | `animate_start.toe` |
-| 3 | [Sense](docs/3-sense.md) | A face, a hand, a voice and a spoken sentence, as numbers to react to. | `sense_start.toe` |
-| 4 | [Think](docs/4-think.md) | A sentence goes in, a model chooses one of your options, the robot plays its clip. | `think_start.toe` |
-| 5 | [Compose](docs/5-compose.md) | All of it as one behaviour: it sleeps, wakes, looks, listens and answers, each a layer in a mixer. | `compose_start.toe` |
+| 1 | [Puppet](docs/1-puppet.md) | Move the robot directly: sliders, oscillators and noise become a character. | `01_puppet.toe` |
+| 2 | [Animate](docs/2-animate.md) | Movements over time: play clips such as yes and no, and make your own. | `02_animate.toe` |
+| 3 | [Sense](docs/3-sense.md) | A face, a hand, a voice and a spoken sentence, as numbers to react to. | `03_sense.toe` |
+| 4 | [Think](docs/4-think.md) | A sentence goes in, a model chooses one of your options, the robot plays its clip. | `04_think.toe` |
+| 5 | [Compose](docs/5-compose.md) | All of it as one behaviour: it sleeps, wakes, looks, listens and answers, each a layer in a mixer. | `05_compose.toe` |
 
 The idea behind all of them: a **signal** such as `face/x`, `voice/level` or `brain/yes`
 says what happens and never moves anything. The robot takes channels named after its
@@ -47,7 +48,7 @@ network.
 | Component | What it does |
 | --------- | ------------ |
 | [`reachy_hub`](docs/1-puppet.md#the-reachy_hub-component) | The robot: channels in, its pose out, and Start / Stop for the robot software. |
-| [`reachy_twin`](docs/1-puppet.md#without-a-robot-the-reachy_twin-component) | The robot as a picture. Needs no robot and no setup. |
+| [`reachy_model`](docs/1-puppet.md#without-a-robot-the-reachy_model-component) | The robot as a picture. Needs no robot and no setup. |
 | [`clip_player`](docs/2-animate.md#playing-a-clip-the-clip_player-component) | Plays a clip. |
 | [`recorder`](docs/2-animate.md#making-a-clip-the-recorder-component) | Makes a clip. |
 | [`face_signal`](docs/3-sense.md#a-face-the-face_signal-component) | A face in front of the camera. |

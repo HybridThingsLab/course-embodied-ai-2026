@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import os
 import platform
 import queue
@@ -150,6 +151,9 @@ class Whisper:
             raise SystemExit(f"{e}. Install the listener's packages first: double-click "
                              'setup-listen in the project folder (or: uv pip install -e '
                              '".[listen]")') from None
+        # Without a login the Hub answers each download with advice to set HF_TOKEN, and
+        # the library prints it as a warning. Nothing is wrong, so it is not shown.
+        logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
         self.language = None if language in ("", "auto") else language
         if ctranslate2.get_cuda_device_count():
             where = {"device": "cuda", "compute_type": "float16"}

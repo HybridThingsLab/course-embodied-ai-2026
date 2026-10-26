@@ -6,16 +6,16 @@ anything itself. What the robot does with it is up to your network.
 
 Before: [Animate](2-animate.md). Next: [Think](4-think.md).
 
-## Three reflexes: sense_start.toe
+## Three reflexes: 03_sense.toe
 
-[`touchdesigner/sense_start.toe`](../touchdesigner/sense_start.toe) has a face, a hand
+[`touchdesigner/03_sense.toe`](../touchdesigner/03_sense.toe) has a face, a hand
 and a voice move the robot: it looks at you, it nods at a thumbs up, and its antennas
 lean in when you speak.
 
 It needs a webcam and the `MediaPipe` component, a download of its own
 ([see below](#camera-tracking-with-mediapipe)). Open the project, click `MediaPipe` and
 choose your camera as **Webcam**. Allow TouchDesigner the camera and the microphone if
-the system asks. `reachy_twin` shows the robot right away; for the simulator or the
+the system asks. `reachy_model` shows the robot right away; for the simulator or the
 robot, press **Start** on `reachy_hub`.
 
 | Operator | What it does |
@@ -45,12 +45,14 @@ named in `thumbs_up`. Then add your own chains, ending in `motion`.
 
 `face_signal` and `hand_signal` read the results of
 [MediaPipe for TouchDesigner](https://github.com/torinmb/mediapipe-touchdesigner)
-(Torin Blankensmith / Google Creative Lab). Its main component is too large for this
-repository: download `release.zip` from its
-[releases](https://github.com/torinmb/mediapipe-touchdesigner/releases) and put its
-`toxes/MediaPipe.tox` at `touchdesigner/mediapipe/toxes/MediaPipe.tox`.
+(Torin Blankensmith / Google Creative Lab). It is too large for this repository:
+download `release.zip` from its
+[releases](https://github.com/torinmb/mediapipe-touchdesigner/releases), unpack it and
+copy all the `.tox` files in its `toxes` folder into `touchdesigner/mediapipe/toxes/`:
+`MediaPipe.tox` and its helpers, such as `face_tracking.tox`. Take them all from the
+same release: they only work together.
 
-For a project of your own with a camera, start from a copy of `sense_start.toe` saved
+For a project of your own with a camera, start from a copy of `03_sense.toe` saved
 next to it.
 
 ## A face: the face_signal component
@@ -150,6 +152,10 @@ switches it on and off, and **Language** is Deutsch or English.
 - **Whisper** needs a setup of its own once: `setup-listen` in the project folder.
 - **Chrome** opens a page: keep that tab open and allow the microphone. The first time,
   the page may show a button to download Chrome's speech model.
+- **If Chrome does not listen**, its page and Status say why. It needs Google Chrome
+  itself. If *Chrome's speech service* works and *on this computer* does not, the
+  speech model is missing: `chrome://components` lists it as SODA, and a Chrome
+  managed by an organisation may block its download.
 - It hears everything the microphone picks up: everyone in the room, a film, the next
   table.
 - **If Whisper does not start**, Status says why. It can also run in a terminal, with

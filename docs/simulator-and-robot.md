@@ -5,12 +5,14 @@ Station page changes.
 
 | | Simulator | Real robot |
 | --- | --- | --- |
-| Mode | Simulator, or Simulator without window | Robot |
+| Mode | Simulator | Robot |
 | In a terminal | `python -m td_reachy.station` (`--headless`: no window) | `python -m td_reachy.station --robot` |
 | Motors off, teach mode | have no effect | work |
 
-**Simulator without window** is for slower computers: the robot still moves and reports
-its pose, there is just no window. `reachy_twin` shows it inside TouchDesigner.
+On a slower computer the simulator can run without its window: start the station in
+[a terminal](getting-started.md#if-start-does-not-work-the-terminal) with `--headless`.
+The robot still moves and reports its pose; `reachy_model` shows it inside
+TouchDesigner.
 
 ## Switching the robot on
 
@@ -25,9 +27,10 @@ Then switch it off.
 
 ## Teach mode
 
-`reachy/teach` 1 (the `teach` operator in `animate_start.toe`) makes the motors soft:
-move the head and antennas by hand, gently, holding the head shell. `reachy/teach` 0
-stiffens them where they are. Stop playing anything into the robot before that, or it
+`reachy/teach` 1 (**Teach** on `recorder`'s Teach page, in `02_animate.toe`) makes
+the motors soft: move the head and antennas by hand, gently, holding the head shell.
+`reachy/teach` 0 stiffens them where they are. Never move the robot by hand while the
+motors are stiff. Stop playing anything into the robot before that, or it
 jumps there.
 
 The robot remembers how far a hand has moved the head, and lets a clip go as far later.
@@ -43,7 +46,8 @@ Hub page.
 - **It connects but does not move:** after `reachy/enable` 0 or `reachy/teach` 1, send
   1 or 0 again.
 - **The base turns wildly:** press **Stop**.
-- **The simulator window stays black:** use Simulator without window.
+- **The simulator window stays black:** start the station in a terminal with
+  `--headless`, as above.
 - **"a simulator daemon is already running …, but the robot was requested"** (or the
   other way round): another station is still running. Stop it first.
 - **TouchDesigner runs on another computer than the robot:** set the hub's **Bridge

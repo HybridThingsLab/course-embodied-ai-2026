@@ -5,9 +5,9 @@ chooses one of your options, and the robot plays that option's clip.
 
 Before: [Sense](3-sense.md). Next: [Compose](5-compose.md).
 
-## A sentence in, a clip out: think_start.toe
+## A sentence in, a clip out: 04_think.toe
 
-Open [`touchdesigner/think_start.toe`](../touchdesigner/think_start.toe). `reachy_twin`
+Open [`touchdesigner/04_think.toe`](../touchdesigner/04_think.toe). `reachy_model`
 shows the robot right away; for the simulator or the robot, press **Start** on
 `reachy_hub`. Then click `brain`, type a sentence into **Text** on its Brain page and
 press Enter.
@@ -74,15 +74,27 @@ Type a sentence into **Text** on the Brain page and press Enter; **Ask** asks it
 | **Jev, in the cloud** | to OpenRouter, on the internet | a key: see below |
 | **Keywords only** | nowhere | nothing, and it understands nothing |
 
-- **Tev1:** install [Ollama](https://ollama.com/download) and start it. Then
-  double-click `setup-think` in the project folder: it downloads Tev1 (4.4 GB) and asks
-  it one sentence. The first answer takes a few seconds, later ones under a second.
+- **Tev1:** needs Ollama and the model, [step by step below](#tev1-step-by-step). The
+  first answer takes a few seconds, later ones under a second.
 - **Jev:** put the key in the first line of a text file `brain_key.txt` in the project
   folder. Never type it into a parameter: it would be saved with the project.
 - **The keywords** answer when no model does. Status then begins with
   `keyword match:` and says why: Ollama not running, no model, no key.
 
 The menu also has Nimble, a larger model for Ollama, and any other model or address.
+
+### Tev1, step by step
+
+1. Download Ollama from its site, [ollama.com/download](https://ollama.com/download),
+   and install it: on macOS open the downloaded file and move Ollama into
+   Applications, on Windows run the installer.
+2. Open Ollama and leave it running: its icon is in the menu bar (macOS) or next to
+   the clock (Windows).
+3. Double-click `setup-think` in the project folder. It downloads Tev1 (4.4 GB), asks
+   it one sentence and ends with **The model is ready**.
+4. In TouchDesigner, `brain` asks Tev1 (the first choice of **Answered By**) whenever
+   Ollama runs. When its Status begins with `keyword match:`, no model answered: open
+   Ollama again.
 
 **Try:** hesitate when unsure: **Select** (`brain/confidence`) → **Logic** (*Off When
 Outside Bounds*, Bounds 0 to 0.45) gives 1 after an unsure answer.

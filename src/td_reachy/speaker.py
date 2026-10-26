@@ -192,6 +192,9 @@ class Supertonic:
         # this computer is sent along (an expired one makes the download fail with 401).
         os.environ.setdefault("HF_HUB_DISABLE_IMPLICIT_TOKEN", "1")
         supertonic = _need("supertonic")
+        # Without a login the Hub answers each download with advice to set HF_TOKEN, and
+        # the library prints it as a warning. Nothing is wrong, so it is not shown.
+        logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
         if not (Path.home() / ".cache" / "supertonic3").is_dir():
             out("[speaker] downloading Supertonic 3 (385 MB, once) ...")
         try:

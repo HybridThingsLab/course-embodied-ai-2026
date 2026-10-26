@@ -40,7 +40,7 @@ if errorlevel 1 (set "MSG=the check did not pass" & goto fail)
 
 echo.
 echo Setup complete.
-echo Next: open touchdesigner\puppet_start.toe in TouchDesigner - docs\getting-started.md, step 4.
+echo Next: open touchdesigner\01_puppet.toe in TouchDesigner - docs\getting-started.md, step 4.
 echo From now on the robot software starts from TouchDesigner - reachy_hub's Station page -
 echo or in a terminal: .venv\Scripts\python.exe -m td_reachy.station
 echo.

@@ -4,29 +4,32 @@ Module 2: movements over time. Play clips such as yes, no and maybe, and make yo
 
 Before: [Puppet](1-puppet.md). Next: [Sense](3-sense.md).
 
-## Clips: animate_start.toe
+## Clips: 02_animate.toe
 
 A **clip** is a movement over time: one channel per robot control, many samples. Open
-[`touchdesigner/animate_start.toe`](../touchdesigner/animate_start.toe) and start
+[`touchdesigner/02_animate.toe`](../touchdesigner/02_animate.toe) and start
 `reachy_hub` as in Puppet. Then click `library`, choose a **Clip** on its Clip page and
 press **Play**.
 
 | Operator | What it does |
 | --- | --- |
 | `library` (a `clip_player`) | plays a clip from [`touchdesigner/clips`](../touchdesigner/clips/README.md): yes, no, maybe, and recorded emotions |
-| `recorder` | makes a clip from the pose the robot reports |
+| `recorder` | makes a clip from the pose the robot reports; its Teach page makes the real robot soft |
 | `take` (a second `clip_player`) | plays what `recorder` holds |
 | `clips` (Math: Combine CHOPs *Add*) | what both players give, added up |
 | `pose` (Constant) | a pose typed in, for the simulator |
 | `drive` (Switch) | what the robot follows: Index 0 = `pose`, 1 = `clips` |
-| `teach` (Constant) | 1 = the real robot's motors go soft, to pose it by hand |
+| `teach` (Rename) | `recorder`'s Teach, named `reachy/teach` for the robot |
 | `to_robot` (Merge) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back, into `recorder` |
+| `reachy_model` | the robot as a picture, from `to_robot` |
 
 **Make a clip of your own, pose by pose:**
 
-- **On the robot:** set `teach` to 1: the motors go soft. Move the head and antennas by
-  hand, gently, holding the head shell, and press **Add Key** on `recorder`. Next pose,
-  Add Key again. Set `teach` back to 0 when you are done.
+- **On the robot:** click `recorder` and switch **Teach** on, on its Teach page: the
+  motors go soft. Move the head and antennas by hand, gently, holding the head shell,
+  and press **Add Key** on its Record page. Next pose, Add Key again. Switch Teach off
+  when you are done. Never move the robot by hand while Teach is off: the motors hold
+  against you.
 - **In the simulator:** set the Index of `drive` to 0, type a pose into `pose` and press
   **Add Key**. Next pose, Add Key again. Set the Index back to 1 when you are done.
 
@@ -66,6 +69,11 @@ far: wire it into a `clip_player` to play it.
 - **Add Key** adds the input as it is now as the next pose. **Remove Last Key** and
   **Clear** undo. **Seconds per Key** is the time from one pose to the next.
 - **Record** on, move, **Record** off: a take, one pose per frame. It replaces the keys.
+- **Teach**, on the Teach page: output 2, `teach`, is 1 while it is on. Wired into the
+  robot as `reachy/teach` (as in `02_animate.toe`), it makes the motors soft, to
+  move the robot by hand. **Teach While Recording** (on) makes `teach` 1 while a take
+  is recorded as well. Switch it off for a take in the simulator: in teach mode the
+  robot follows nothing.
 - **Easing** (*Smooth* or *Linear*) is how it moves between keys. **Stretch** makes the
   clip longer (2) or shorter (0.5).
 - **Save** writes the clip as **Name** into the clips folder. It is then in the Clip
