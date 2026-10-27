@@ -3,7 +3,6 @@ Technical University of Applied Sciences Augsburg, Prof. Andreas Muxel & Mathias
 [Hybrid Things Lab](https://github.com/HybridThingsLab), Faculty of Design
 
 # Physical Interfaces / Embodied Interaction with AI
-AI* at the Technical University of Applied Sciences Augsburg
 
 ## Sense · Think · Move
 
