@@ -16,11 +16,11 @@ Your course materials or project files are stored in a **GitHub repository**—a
 
 This is called **cloning**. It creates a copy of the online repository on your computer.
 
-3. Open **GitHub Desktop**.
-4. Choose **Clone a Repository from the Internet...**.
-5. Select the **URL** tab and paste the repository URL, which in our case is "https://github.com/HybridThingsLab/course-embodied-ai-2026.git".
-6. Choose a **Local Path** (the folder where you want to save the files).
-7. Click **Clone**.
+1. Open **GitHub Desktop**.
+2. Choose **Clone a Repository from the Internet...**.
+3. Select the **URL** tab and paste the repository URL, which in our case is "https://github.com/HybridThingsLab/course-embodied-ai-2026.git".
+4. Choose a **Local Path** (the folder where you want to save the files).
+5. Click **Clone**.
 
 Your project files are now on your computer. **You only need to clone the repository once.**
 
@@ -45,9 +45,9 @@ Open the files using the applications you normally use for your design work.
 
 - **Pull** downloads updates from GitHub to your computer.
 - You **do not need to Commit or Push** for this course workflow.
-- If you want to experiment with a project, **copy the file and re-name it, but stay in the same folder** before editing them.
+- If you want to experiment with a project, **copy the file and rename the copy, in the same folder**, before editing it.
 - Editing files inside the cloned repository can interfere with future updates.
-- If GitHub Desktop warns about **local changes**, a **conflict**, or files that would be overwritten, **do not discard your changes**. Ask your us or your fellwo students for help.
+- If GitHub Desktop warns about **local changes**, a **conflict**, or files that would be overwritten, **do not discard your changes**. Ask us or your fellow students for help.
 
 ## Three words to remember
 

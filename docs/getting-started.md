@@ -11,10 +11,10 @@ reasonably capable graphics card.
 
 ## 2. Get the code
 
-We **strongly recommend** to use a user-frienldy git client like [GitHub Desktop](https://desktop.github.com/) to get the code and stay updated:
+We **strongly recommend** using a user-friendly git client like [GitHub Desktop](https://desktop.github.com/) to get the code and stay updated:
 [manual-github.md](manual-github.md).
 
-Or **Code → Download ZIP** on the repository's page work too (not the recommend way to stay updated!).
+Or **Code → Download ZIP** on the repository's page works too (not the recommended way to stay updated!).
 
 ## 3. Run the setup
 
