@@ -69,8 +69,8 @@ The other setups, by hand. On Windows, write `.venv\Scripts\python.exe` where th
   lists the microphones.
 - **A model** (`setup-think`): install and open Ollama
   ([Think](4-think.md#tev1-step-by-step)), then
-  `.venv/bin/python -m td_reachy.think_setup`. It downloads Tev1 and asks it a
-  sentence.
+  `.venv/bin/python -m td_reachy.think_setup`. It downloads Tev1 and Gemma 3 and asks
+  each a sentence.
 - **Speaking** (`setup-speak`): `uv pip install -e ".[speak]"`, then
   `.venv/bin/python -m td_reachy.speaker --prepare`. It downloads Kokoro and says a
   sentence.

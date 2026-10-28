@@ -1,9 +1,10 @@
 @echo off
-rem A decision model on this computer for the brain_signal component, on Windows:
+rem The models on this computer for the brain_signal and answer components, on Windows:
 rem double-click this file, or run setup-think.bat in a terminal. Run setup.bat first,
 rem and install Ollama from https://ollama.com/download - that one step is yours.
-rem Then this checks Ollama, downloads the model Tev1, about 4.4 GB, and asks it one
-rem sentence. Safe to run again: what is already there is skipped.
+rem Then this checks Ollama, downloads the models Tev1, about 4.4 GB, which decides, and
+rem Gemma 3, about 3.3 GB, which answers, and asks each one sentence. Safe to run again:
+rem what is already there is skipped.
 setlocal
 cd /d "%~dp0"
 
@@ -13,10 +14,10 @@ if not exist ".venv\Scripts\python.exe" (set "MSG=there is no .venv folder yet: 
 echo Found.
 
 .venv\Scripts\python.exe -m td_reachy.think_setup %*
-if errorlevel 1 (set "MSG=the model is not ready yet" & goto fail)
+if errorlevel 1 (set "MSG=the models are not ready yet" & goto fail)
 
 echo.
-echo The model is ready.
+echo The models are ready.
 
 echo.
 pause

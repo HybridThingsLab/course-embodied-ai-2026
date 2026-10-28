@@ -19,7 +19,9 @@ press **Start** on `reachy_hub`.
 While nobody is there it sleeps. A face or a voice wakes it, and it looks at whoever is
 there; while someone speaks it leans in. Type a sentence into **Text** on `brain`: while
 it thinks, its head tilts, then it answers with a gesture, a look around or a happy
-little dance. And it always breathes.
+little dance, and it answers out loud: `answer_too`, `answer`, `speaker` and
+`listen_gate` work as in [Think](4-think.md#an-answer-the-answer-component). And it
+always breathes.
 
 | Layer (mixer input) | Mode | Weight | What it is |
 | --- | --- | --- | --- |
@@ -36,6 +38,10 @@ layer: `someone` (a face or a voice) → `wake` (up at once, down over a few sec
 `sleepy` (1 − wake) is `asleep`; `face/present`, `voice/active`, `brain/thinking` and
 whether an act plays are renamed to `gaze`, `listen`, `think` and `act`. `leading` shows
 the weights as the mixer uses them.
+
+The mix goes through `reachy_mapping` to `to_robot`. A signal wired into `to_mapping`
+moves the robot on top of it, as a row of the table `mapping` says
+([Puppet](1-puppet.md#the-reachy_mapping-component)).
 
 Change first: the **Weight** of `idle` on the mixer's Mixer page (0 = still, 2 =
 restless), the Lag of `wake` (how soon it falls asleep), and the **Mode** of `act`: as

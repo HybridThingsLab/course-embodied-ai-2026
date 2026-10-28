@@ -1,17 +1,18 @@
-"""Get a decision model ready on this computer, for brain_signal: check Ollama, fetch
-the model, ask it one sentence.
+"""Get the models of Module 4 ready on this computer: check Ollama, fetch a decision
+model for brain_signal and a chat model for answer, ask each one sentence.
 
-    python -m td_reachy.think_setup             # Tev1
+    python -m td_reachy.think_setup             # Tev1, and Gemma 3 for answers
     python -m td_reachy.think_setup --model nimble
+    python -m td_reachy.think_setup --answer none   # the decision model only
 
 setup-think.command / setup-think.bat run this. It does not install Ollama: its
 installer asks for the computer's password and differs from system to system, so that
 step stays with whoever sits at the computer (https://ollama.com/download). Everything
 after it is done here, and each step says what is wrong when it cannot go on.
 
-The question it asks at the end is the one a brain_signal asks - a sentence, and
-options with a line each - at the address a brain_signal uses, so an answer here means
-the component will get one too.
+The questions it asks at the end are the ones the components ask - for brain_signal a
+sentence and options with a line each, for answer the same sentence as a conversation -
+at the addresses they use, so an answer here means the components will get one too.
 """
 
 from __future__ import annotations
@@ -30,7 +31,9 @@ from pathlib import Path
 HOST = "http://localhost:11434"   # where Ollama answers on this computer
 NEEDED = (0, 35)                  # the first Ollama that serves decision models
 MODEL = "tev1"
-SIZES = {"tev1": "4.4 GB", "nimble": "9.3 GB"}   # what `ollama pull` downloads
+ANSWER = "gemma3:4b"              # the chat model an answer component asks
+# What `ollama pull` downloads.
+SIZES = {"tev1": "4.4 GB", "nimble": "9.3 GB", "gemma3:4b": "3.3 GB"}
 SENTENCE = "Hello, is anyone there?"
 QUESTION = "Which reaction fits what was said to the robot?"
 OPTIONS = {
@@ -40,6 +43,10 @@ OPTIONS = {
     "look_around": "A look around. Someone greets the robot, calls it, or asks who is there.",
     "nothing": "No reaction. What was said is not meant for the robot or needs no answer.",
 }
+# What an answer component tells its model first (answer_chat.py's, shorter).
+CHAT = ("You are a small robot on a table. You are curious, friendly and a little cheeky. "
+        "People talk to you, and you answer out loud. Answer with one or two short sentences, "
+        "at most 25 words. Answer in English.")
 DOWNLOAD = "https://ollama.com/download"
 
 
@@ -138,35 +145,62 @@ def ask(model, post=post, clock=time.perf_counter):
     return choice, float(answer.get("confidence") or 0.0), clock() - began
 
 
-def setup(model=MODEL, out=print, **how):
-    """All steps. `how` replaces what talks to the outside, for the tests."""
+def reply(model, post=post, clock=time.perf_counter):
+    """One sentence, as an answer component asks it: (what the model said, seconds)."""
+    began = clock()
+    said = post("/v1/chat/completions", {
+        "model": model, "max_tokens": 75, "stream": False, "keep_alive": "10m",
+        "reasoning_effort": "none",
+        "messages": [{"role": "system", "content": CHAT}, {"role": "user", "content": SENTENCE}]})
+    first = (said.get("choices") or [{}])[0]
+    text = ((first if isinstance(first, dict) else {}).get("message") or {}).get("content")
+    if not isinstance(text, str) or not text.strip():
+        raise Stop(f"{model} answered, but with no words: {str(said)[:200]}")
+    return " ".join(text.split()), clock() - began
+
+
+def setup(model=MODEL, answer=ANSWER, out=print, **how):
+    """All steps. answer: the chat model as well, or None. `how` replaces what talks to
+    the outside, for the tests."""
     get_, post_ = how.get("get", get), how.get("post", post)
     find, run = how.get("find", find_ollama), how.get("run", subprocess.run)
-    out("\n== 1/3  Ollama")
+    models = [(model, "decides: brain_signal")] + ([(answer, "answers: answer")] if answer else [])
+    total = len(models) + 2
+    out(f"\n== 1/{total}  Ollama")
     out(f"Ollama {check_ollama(get_, find)} is running.")
-    out(f"\n== 2/3  The model {model}")
-    if have(model, get_):
-        out("It is on this computer already.")
-    else:
-        size = SIZES.get(model)
-        out(f"Downloading it{f' (about {size})' if size else ''} ...")
-        fetch(model, run, find)
-    out("\n== 3/3  Check: one sentence, as TouchDesigner will ask it")
+    for step, (name, what) in enumerate(models, start=2):
+        out(f"\n== {step}/{total}  The model {name}, which {what}")
+        if have(name, get_):
+            out("It is on this computer already.")
+        else:
+            size = SIZES.get(name)
+            out(f"Downloading it{f' (about {size})' if size else ''} ...")
+            fetch(name, run, find)
+    out(f"\n== {total}/{total}  Check: one sentence, as TouchDesigner will ask it")
     out("The first answer takes a few seconds: the model is loaded then.")
     choice, sure, seconds = ask(model, post_)
     out(f'"{SENTENCE}" -> {model} chose {choice} ({sure:.2f}) after {seconds:.1f} s')
+    if answer:
+        said, seconds = reply(answer, post_)
+        out(f'"{SENTENCE}" -> {answer} said "{said}" after {seconds:.1f} s')
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    parser.add_argument("--model", default=MODEL, help=f"the model to get ready (default: {MODEL})")
+    parser.add_argument("--model", default=MODEL,
+                        help=f"the decision model to get ready (default: {MODEL})")
+    parser.add_argument("--answer", default=ANSWER,
+                        help=f"the chat model that answers (default: {ANSWER}; none: skip it)")
     args = parser.parse_args(argv)
+    answer = None if args.answer.strip().lower() in ("", "none") else args.answer.strip()
     try:
-        setup(args.model)
+        setup(args.model, answer)
     except Stop as e:
         print(f"\nSetup stopped: {e}")
         return 1
     print(f"\nReady. In TouchDesigner: click brain, Model page, Answered By: {args.model.title()}.")
+    if answer:
+        print(f"answer asks {answer} whenever Ollama runs.")
     return 0
 
 

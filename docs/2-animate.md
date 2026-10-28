@@ -13,14 +13,14 @@ press **Play**.
 
 | Operator | What it does |
 | --- | --- |
-| `library` (a `clip_player`) | plays a clip from [`touchdesigner/clips`](../touchdesigner/clips/README.md): yes, no, maybe, and recorded emotions |
+| `library` (a `clip_player`) | plays a clip from [`touchdesigner/clips`](../touchdesigner/clips/README.md): yes, no, maybe, look_around, cheerful1, and the ones you make |
 | `recorder` | makes a clip from the pose the robot reports; its Teach page makes the real robot soft |
-| `take` (a second `clip_player`) | plays what `recorder` holds |
-| `clips` (Math: Combine CHOPs *Add*) | what both players give, added up |
+| `clips` (Math: Combine CHOPs *Add*) | what `library` plays, added to all nine channels at 0 |
 | `pose` (Constant) | a pose typed in, for the simulator |
-| `drive` (Switch) | what the robot follows: Index 0 = `pose`, 1 = `clips` |
+| `switch` (Switch) | what the robot follows: Index 0 = `pose`, 1 = `clips` |
 | `teach` (Rename) | `recorder`'s Teach, named `reachy/teach` for the robot |
-| `to_robot` (Merge) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back, into `recorder` |
+| `to_mapping` (Merge) → `reachy_mapping`, and its table `mapping` | the two together; the robot's channels pass through `reachy_mapping` ([Puppet](1-puppet.md#the-reachy_mapping-component)) |
+| `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back, into `recorder` |
 | `reachy_model` | the robot as a picture, from `to_robot` |
 
 **Make a clip of your own, pose by pose:**
@@ -30,11 +30,13 @@ press **Play**.
   and press **Add Key** on its Record page. Next pose, Add Key again. Switch Teach off
   when you are done. Never move the robot by hand while Teach is off: the motors hold
   against you.
-- **In the simulator:** set the Index of `drive` to 0, type a pose into `pose` and press
+- **In the simulator:** set the Index of `switch` to 0, type a pose into `pose` and press
   **Add Key**. Next pose, Add Key again. Set the Index back to 1 when you are done.
 
-Then press **Play** on `take`. To keep the clip, give it a **Name** on `recorder` and
-press **Save**. The `readme` in the project has the steps.
+Then give it a **Name** on `recorder` and press **Save**: it becomes a clip file, in the
+Clip menu of `library` and of every other `clip_player`. Choose it there and press
+**Play**. Saved again under the same name, press **Reload** on `library`. The `readme`
+in the project has the steps.
 
 While you teach, hold the head up a little: with the motors soft it sinks, and the clip
 plays back no lower than the robot's range.
@@ -47,7 +49,8 @@ start to its end.
 - **Clip** lists the files in [`touchdesigner/clips`](../touchdesigner/clips/README.md).
   If your `.toe` is saved outside the project folder, set **Clips Folder**.
 - **Play**, **Stop**, **Loop**, **Speed** (2 = twice as fast), and **Fade**: the
-  seconds over which a clip fades in and out, so it never jumps.
+  seconds over which a clip fades in and out, so it never jumps. At another Speed,
+  **Status** says how long the clip plays; **Clip Length** stays its own length.
 - **Input 1** (optional): a clip as a CHOP, such as `recorder`'s output. It plays
   instead of the file.
 - **Input 2** (optional): a trigger. The clip plays when it goes from 0 to 1: a button,

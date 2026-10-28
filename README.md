@@ -21,7 +21,7 @@ the same files drive the real one.
    [docs/getting-started.md](docs/getting-started.md).
 2. Open `touchdesigner/01_puppet.toe`: `reachy_model` shows the robot. Click
    `reachy_hub`, press **Start** on its Station page and wait for `ready`: the
-   simulator starts, and the robot moves.
+   simulator starts. Drag the value of `head_yaw`, and the robot turns.
 
 ## The modules
 
@@ -32,7 +32,7 @@ Each module has a project to open, in [`touchdesigner/`](touchdesigner/), and a 
 | 1 | [Puppet](docs/1-puppet.md) | Move the robot directly: sliders, oscillators and noise become a character. | `01_puppet.toe` |
 | 2 | [Animate](docs/2-animate.md) | Movements over time: play clips such as yes and no, and make your own. | `02_animate.toe` |
 | 3 | [Sense](docs/3-sense.md) | A face, a hand, a voice and a spoken sentence, as numbers to react to. | `03_sense.toe` |
-| 4 | [Think](docs/4-think.md) | A sentence goes in, a model chooses one of your options, the robot plays its clip. | `04_think.toe` |
+| 4 | [Think](docs/4-think.md) | A sentence goes in, a model chooses one of your options, the robot plays its clip and answers out loud. | `04_think.toe` |
 | 5 | [Compose](docs/5-compose.md) | All of it as one behaviour: it sleeps, wakes, looks, listens and answers, each a layer in a mixer. | `05_compose.toe` |
 
 The idea behind all of them: a **signal** such as `face/x`, `voice/level` or `brain/yes`
@@ -49,6 +49,7 @@ network.
 | --------- | ------------ |
 | [`reachy_hub`](docs/1-puppet.md#the-reachy_hub-component) | The robot: channels in, its pose out, and Start / Stop for the robot software. |
 | [`reachy_model`](docs/1-puppet.md#without-a-robot-the-reachy_model-component) | The robot as a picture. Needs no robot and no setup. |
+| [`reachy_mapping`](docs/1-puppet.md#the-reachy_mapping-component) | Turns any channel into the robot's, by a table: which channel moves which part, and how far. In every starter, right before `to_robot`. |
 | [`clip_player`](docs/2-animate.md#playing-a-clip-the-clip_player-component) | Plays a clip. |
 | [`recorder`](docs/2-animate.md#making-a-clip-the-recorder-component) | Makes a clip. |
 | [`face_signal`](docs/3-sense.md#a-face-the-face_signal-component) | A face in front of the camera. |
@@ -56,6 +57,7 @@ network.
 | [`voice_signal`](docs/3-sense.md#a-voice-the-voice_signal-component) | How loud it is, and whether someone speaks. |
 | [`speech_signal`](docs/3-sense.md#what-was-said-the-speech_signal-component) | What was said, as a sentence. |
 | [`brain_signal`](docs/4-think.md#a-decision-the-brain_signal-component) | A sentence in, a model's choice among your options out. |
+| [`answer`](docs/4-think.md#an-answer-the-answer-component) | A sentence in, a language model's short spoken answer out, for a speaker to say. |
 | [`speaker`](docs/4-think.md#a-voice-the-speaker-component) | A voice: a sentence in, spoken by Kokoro, Edge's voices, Supertonic or Piper, and how loud it is. |
 | [`mixer`](docs/5-compose.md#mixing-layers-the-mixer-component) | Mixes layers of channels by name: each adds to or takes over what is below it, by its weight. |
 

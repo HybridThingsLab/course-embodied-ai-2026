@@ -1,7 +1,8 @@
 # Think
 
 Module 4: a sentence, typed or spoken, goes in and a decision comes out. A model
-chooses one of your options, and the robot plays that option's clip.
+chooses one of your options, and the robot plays that option's clip. Another model
+writes what the robot says back.
 
 Before: [Sense](3-sense.md). Next: [Compose](5-compose.md).
 
@@ -14,7 +15,8 @@ press Enter.
 
 It starts with the model Tev1, which needs `setup-think`
 ([below](#a-decision-the-brain_signal-component)). With **Answered By** set to
-*Keywords only* on the Model page it works without anything installed.
+*Keywords only* on the Model page it works without anything installed, but says
+nothing back.
 
 | Operator | What it does |
 | --- | --- |
@@ -24,8 +26,9 @@ It starts with the model Tev1, which needs `setup-think`
 | `pick_yes` → `play_yes` (a `clip_player`), and the same for each option | the chosen option starts the player that holds its clip |
 | `waiting` → `tilt` → `as_roll` → `ease` | while it waits for the answer, the head tilts |
 | `base` and `motion` (Math: Combine CHOPs *Add*) | everything added up |
+| `to_mapping` (Merge) → `reachy_mapping`, and its table `mapping` | the robot's channels pass through; a signal wired into `to_mapping` moves the robot as a row of `mapping` says ([Puppet](1-puppet.md#the-reachy_mapping-component)) |
 | `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back |
-| `lines` (Table) → `say_line` → `speaker` (a `speaker`) | the robot says the line of the option chosen; `talk_*` move the antennas with its voice |
+| `answer_too` → `answer` (an `answer`) → `speaker` (a `speaker`) | every sentence `brain` is asked goes to `answer` too; it writes a short answer and `speaker` says it. `answer_out` shows its channels, `talk_*` move the antennas with the voice |
 | `listen_gate` → `heard` | what `speech` hears goes to `brain`, unless the robot was speaking just then |
 
 The options are yours. Change a description and ask again: the description is all the
@@ -36,12 +39,13 @@ wire it into `motion`.
 To say the sentence instead of typing it, click `speech` and switch **Listen** on
 ([`speech_signal`](3-sense.md#what-was-said-the-speech_signal-component)).
 
-The robot answers out loud: `speaker` says the line in `lines` for the option chosen
-([below](#a-voice-the-speaker-component)), from the column of its **Language**: `en` or
-`de`. For German, choose *Deutsch* on `speaker` and on `speech`, and an **Engine** other
-than Kokoro, which speaks English only. The microphone hears the robot too, so
-`listen_gate` passes on nothing heard while it speaks or in the 2 s after: wait a
-moment before you answer.
+The robot answers out loud: `answer` writes a short answer to each sentence
+([below](#an-answer-the-answer-component)), on its own, while `brain` chooses the clip,
+and `speaker` says it ([below](#a-voice-the-speaker-component)). Both use the speaker's
+**Language**: `en` or `de`. For German, choose *Deutsch* on `speaker` and on `speech`,
+and an **Engine** other than Kokoro, which speaks English only. The microphone hears
+the robot too, so `listen_gate` passes on nothing heard while it speaks or in the 2 s
+after: wait a moment before you answer.
 
 ## A decision: the brain_signal component
 
@@ -90,14 +94,57 @@ The menu also has Nimble, a larger model for Ollama, and any other model or addr
    Applications, on Windows run the installer.
 2. Open Ollama and leave it running: its icon is in the menu bar (macOS) or next to
    the clock (Windows).
-3. Double-click `setup-think` in the project folder. It downloads Tev1 (4.4 GB), asks
-   it one sentence and ends with **The model is ready**.
-4. In TouchDesigner, `brain` asks Tev1 (the first choice of **Answered By**) whenever
-   Ollama runs. When its Status begins with `keyword match:`, no model answered: open
-   Ollama again.
+3. Double-click `setup-think` in the project folder. It downloads Tev1 (4.4 GB) and
+   Gemma 3 for `answer` (3.3 GB), asks each one sentence and ends with **The models
+   are ready**.
+4. In TouchDesigner, `brain` asks Tev1 (the first choice of **Answered By**) and
+   `answer` asks Gemma 3 whenever Ollama runs. When `brain`'s Status begins with
+   `keyword match:`, no model answered: open Ollama again.
 
 **Try:** hesitate when unsure: **Select** (`brain/confidence`) → **Logic** (*Off When
 Outside Bounds*, Bounds 0 to 0.45) gives 1 after an unsure answer.
+
+## An answer: the answer component
+
+`answer.tox` (in `touchdesigner/components`) takes a sentence and asks a **language
+model** for a short spoken answer: one or two sentences, no emojis, no lists. Type a
+sentence into **Text** on the Answer page and press Enter, wire a sentence into its
+input, or call `op('answer').Ask('Hello!')` from Python. Its second output is the
+answer as text: wire it into a `speaker`.
+
+- **Character:** who the robot is, in a few sentences: the first thing the model reads.
+  Change it and talk to it again.
+- **Language:** `en` or `de`, the language of its speaker. **Words:** at most so many.
+- **Memory:** how many exchanges go along with each sentence, so that it can follow a
+  conversation. **Forget** starts a new one; after two minutes without an answer it
+  starts a new one by itself.
+- **Input 1** (optional): a sentence, for example `speech_signal`'s second output.
+- **Output 2:** the answer and its number, as a table: for `speaker`'s input.
+
+| Channel | Values | Meaning |
+| ------- | ------ | ------- |
+| `answer/thinking` | 0 or 1 | 1 while it waits for the model |
+| `answer/done` | 0 or 1 | 1 for a moment when an answer is out |
+| `answer/age` | seconds | how long ago the last answer came |
+| `answer/failed` | 0 or 1 | 1 when the last sentence got no answer: then nothing is said |
+
+**Answered By**, on the Model page:
+
+| Answered By | Where the sentence goes | What it needs |
+| ----------- | ----------------------- | ------------- |
+| **Gemma 3, on this computer** | nowhere | Ollama and the model: `setup-think` downloads it with Tev1 |
+| **Claude Haiku, in the cloud** | to OpenRouter, on the internet | the key in `brain_key.txt`, as for Jev |
+
+The menu also has any other model or address that takes OpenAI's chat completions:
+Ollama on another computer, LM Studio, another service.
+
+When no model answers it says nothing, and **Status** says why, for example
+`no answer - model "gemma3:4b" not found` (run `setup-think`). The first answer takes a
+few seconds, while the model is loaded; later ones under a second.
+
+**Try:** another character. **Character**: *You are Reachy, a shy little robot. You
+answer briefly and quietly, and sometimes you only say hm.* Or give it a name, a mood,
+a favourite subject.
 
 ## A voice: the speaker component
 
