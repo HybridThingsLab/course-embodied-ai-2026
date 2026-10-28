@@ -11,12 +11,10 @@ reasonably capable graphics card.
 
 ## 2. Get the code
 
-```bash
-git clone https://github.com/HybridThingsLab/course-embodied-ai-2026.git sense-think-move
-```
+We **strongly recommend** to use a user-frienldy git client like [GitHub Desktop](https://desktop.github.com/) to get the code and stay updated:
+[manual-github.md](manual-github.md).
 
-No git? [GitHub Desktop](https://desktop.github.com/) or **Code → Download ZIP** on the
-repository's page work too.
+Or **Code → Download ZIP** on the repository's page work too (not the recommend way to stay updated!).
 
 ## 3. Run the setup
 
