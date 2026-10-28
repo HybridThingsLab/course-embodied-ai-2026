@@ -16,7 +16,8 @@ Backup/
 
 # MediaPipe for TouchDesigner (~180 MB): MediaPipe.tox and its helpers, all copied
 # from its release, see docs/3-sense.md
-touchdesigner/mediapipe/toxes/
+touchdesigner/mediapipe/toxes/*
+!touchdesigner/mediapipe/toxes/README.md
 
 # What the robot software and the listener write while they run
 *.log
