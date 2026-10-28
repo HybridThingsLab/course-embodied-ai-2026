@@ -9,10 +9,11 @@ Station page changes.
 | In a terminal | `python -m td_reachy.station` (`--headless`: no window) | `python -m td_reachy.station --robot` |
 | Motors off, teach mode | have no effect | work |
 
-On a slower computer the simulator can run without its window: start the station in
-[a terminal](getting-started.md#if-start-does-not-work-the-terminal) with `--headless`.
-The robot still moves and reports its pose; `reachy_model` shows it inside
-TouchDesigner.
+The simulator runs without a window of its own: it moves the robot and reports its
+pose, and `reachy_model` shows that pose inside TouchDesigner. Its own window opens
+only when the station is started in
+[a terminal](getting-started.md#if-start-does-not-work-the-terminal) without
+`--headless`.
 
 ## Switching the robot on
 
@@ -46,8 +47,6 @@ Hub page.
 - **It connects but does not move:** after `reachy/enable` 0 or `reachy/teach` 1, send
   1 or 0 again.
 - **The base turns wildly:** press **Stop**.
-- **The simulator window stays black:** start the station in a terminal with
-  `--headless`, as above.
 - **"a simulator daemon is already running …, but the robot was requested"** (or the
   other way round): another station is still running. Stop it first.
 - **TouchDesigner runs on another computer than the robot:** set the hub's **Bridge

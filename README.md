@@ -19,9 +19,9 @@ the same files drive the real one.
 
 1. Install TouchDesigner, get this repository and run its setup:
    [docs/getting-started.md](docs/getting-started.md).
-2. Open `touchdesigner/01_puppet.toe`: `reachy_model` shows the robot. Click
-   `reachy_hub`, press **Start** on its Station page and wait for `ready`: the
-   simulator starts. Drag the value of `head_yaw`, and the robot turns.
+2. Open `touchdesigner/01_puppet.toe`, click `reachy_hub`, press **Start** on its
+   Station page and wait for `ready`: `reachy_model` shows the simulated robot. Drag
+   the value of `head_yaw`, and the robot turns.
 
 ## The modules
 

@@ -8,9 +8,8 @@ Before: [Sense](3-sense.md). Next: [Compose](5-compose.md).
 
 ## A sentence in, a clip out: 04_think.toe
 
-Open [`touchdesigner/04_think.toe`](../touchdesigner/04_think.toe). `reachy_model`
-shows the robot right away; for the simulator or the robot, press **Start** on
-`reachy_hub`. Then click `brain`, type a sentence into **Text** on its Brain page and
+Open [`touchdesigner/04_think.toe`](../touchdesigner/04_think.toe) and press **Start**
+on `reachy_hub`: `reachy_model` shows the simulated robot, or the real one. Then click `brain`, type a sentence into **Text** on its Brain page and
 press Enter.
 
 It starts with the model Tev1, which needs `setup-think`

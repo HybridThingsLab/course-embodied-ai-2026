@@ -13,8 +13,8 @@ camera and the `MediaPipe` component, as in
 [Sense](3-sense.md#camera-tracking-with-mediapipe), and a model for `brain`, as in
 [Think](4-think.md#a-decision-the-brain_signal-component); with **Answered By** set to
 *Keywords only* it works without one. Click `MediaPipe` and choose your camera as
-**Webcam**. `reachy_model` shows the robot right away; for the simulator or the robot,
-press **Start** on `reachy_hub`.
+**Webcam**. Press **Start** on `reachy_hub`: `reachy_model` shows the simulated robot,
+or the real one.
 
 While nobody is there it sleeps. A face or a voice wakes it, and it looks at whoever is
 there; while someone speaks it leans in. Type a sentence into **Text** on `brain`: while

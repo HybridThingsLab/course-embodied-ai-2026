@@ -37,8 +37,9 @@ If it still does not run, or you would rather type each step yourself:
 ## 4. Open the first project
 
 Open `touchdesigner/01_puppet.toe`, click `reachy_hub`, press **Start** on its
-Station page and wait until **Status** says `ready`. A window opens with the simulated
-robot. Drag the value of `head_yaw` and it turns. Continue with [Puppet](1-puppet.md).
+Station page and wait until **Status** says `ready`. `reachy_model` shows the simulated
+robot: the simulator has no window of its own. Drag the value of `head_yaw` and it
+turns. Continue with [Puppet](1-puppet.md).
 
 ## 5. Later: listening, a model, speaking
 

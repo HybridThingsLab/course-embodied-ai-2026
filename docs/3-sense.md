@@ -15,8 +15,8 @@ lean in when you speak.
 It needs a webcam and the `MediaPipe` component, a download of its own
 ([see below](#camera-tracking-with-mediapipe)). Open the project, click `MediaPipe` and
 choose your camera as **Webcam**. Allow TouchDesigner the camera and the microphone if
-the system asks. `reachy_model` shows the robot right away; for the simulator or the
-robot, press **Start** on `reachy_hub`.
+the system asks. Press **Start** on `reachy_hub`: `reachy_model` shows the simulated
+robot, or the real one.
 
 | Operator | What it does |
 | --- | --- |
