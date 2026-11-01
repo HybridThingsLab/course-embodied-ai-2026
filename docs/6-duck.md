@@ -88,6 +88,11 @@ It moves as Pollen's simulator moved the duck, recorded from it: as fast, with t
 steps. Its head turns as far as it is asked; a real duck's network may turn it less. Height
 and lean are the simulator's; the beak does not move (Pollen's model has no joint for it).
 
+Asked to walk straight it veers to its right, because Pollen's simulator does. At a whole
+share it walks a circle about 3.6 m across, a lap in about 70 s; at 0.6 it hardly veers. At a
+whole share, `duck/turn` at 0.12 straightens it. The veer comes from the duck's walking
+network, so a real duck, or Pollen's next network, may do otherwise.
+
 A standing duck takes more asking than a walking one, and the model does the same:
 
 | | to start from standing | to keep going |
