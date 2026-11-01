@@ -23,29 +23,38 @@ do nothing here. A real duck does the same.
 
 ## Make it walk
 
-Walking takes a channel of its own, and a row that says what it moves.
+A channel named as one of `duck_hub`'s outputs, such as `duck/walk`, goes straight
+through: -1 to 1 is the duck's whole range.
 
-1. Add a Constant CHOP with a channel named `walk`. Add a Merge CHOP, wire `to_robot` and
-   the Constant into it, and wire the Merge into `duck_hub`, in place of the wire from
+1. Add a Constant CHOP with a channel named `duck/walk`. Add a Merge CHOP, wire `to_robot`
+   and the Constant into it, and wire the Merge into `duck_hub`, in place of the wire from
    `to_robot`.
-2. Add a Table DAT with these rows and wire it into `duck_hub`'s second input:
+2. Drag `duck/walk` to 0.7: the duck walks, and the camera follows it. Drag it back down to
+   0.3: it goes on, slower. **Home** on `duck_model` brings it back.
 
-   | channel | duck | in_min | in_max | out_min | out_max |
-   | --- | --- | --- | --- | --- | --- |
-   | `reachy/head/yaw` | head_yaw | -143 | 143 | -1 | 1 |
-   | `reachy/head/pitch` | head_pitch | -143 | 143 | -1 | 1 |
-   | `reachy/head/roll` | head_roll | -143 | 143 | 1 | -1 |
-   | `walk` | walk | -1 | 1 | -1 | 1 |
+At 0.5 it stays where it is: a standing duck needs about 0.6
+([below](#the-duck_model-component)).
 
-3. Drag `walk` to 0.7: the duck walks, and the camera follows it. Drag it back down to 0.3:
-   it goes on, slower. **Home** on `duck_model` brings it back.
+## Another channel onto the duck
+
+Any other channel needs a row that says what it moves. Wire it into the Merge as well, add
+a Table DAT with these rows, and wire the table into `duck_hub`'s second input:
+
+| channel | duck | in_min | in_max | out_min | out_max |
+| --- | --- | --- | --- | --- | --- |
+| `reachy/head/yaw` | head_yaw | -143 | 143 | -1 | 1 |
+| `reachy/head/pitch` | head_pitch | -143 | 143 | -1 | 1 |
+| `reachy/head/roll` | head_roll | -143 | 143 | 1 | -1 |
+| `hand/y` | walk | -1 | 1 | -1 | 1 |
 
 A channel's value from in_min to in_max becomes out_min to out_max, where -1 to 1 is the
-duck's whole range. The first three rows turn the duck's head as far as the Reachy's; the
-roll is turned round, because the duck's head tilts the other way.
+duck's whole range. A wired table replaces the one inside `duck_hub`, whose rows are the
+first three here: they turn the duck's head as far as the Reachy's, and the roll is turned
+round, because the duck's head tilts the other way. A row decides over a `duck/*` channel
+for what it moves.
 
-Change first: put a signal in place of the Constant, such as `hand/y` onto `walk`, and
-narrow out_min and out_max until it walks as slowly as you want.
+Change first: put your own signal in place of `hand/y`, and narrow out_min and out_max
+until it walks as slowly as you want.
 
 ## The duck_hub component
 
