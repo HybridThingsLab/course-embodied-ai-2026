@@ -58,19 +58,24 @@ until it walks as slowly as you want.
 
 ## Make it roll
 
-The duck also does things by name, as it did in Pollen's simulator. Each time one of these
-channels goes above 0.5 it does that once, however long the channel stays there:
+The duck also does things by name, as it did in Pollen's simulator. Press a button on
+`duck_hub`'s Duck page, or put its channel above 0.5: it does that once, however long the channel
+stays there.
 
-| channel | the duck |
-| --- | --- |
-| `duck/roll` | does a forward roll |
-| `duck/kick_left`, `duck/kick_right` | kicks with that leg |
-| `duck/pick` | picks at the ground |
-| `duck/sit` | sits down; the next time, stands up |
-| `duck/fall` | falls over and lies there; it gets up when the channel goes back under 0.5 |
+| button | channel | the duck |
+| --- | --- | --- |
+| **Roll** | `duck/roll` | does a forward roll |
+| **Kick Left** | `duck/kick_left` | kicks with its left leg |
+| **Kick Right** | `duck/kick_right` | kicks with its right leg |
+| **Pick** | `duck/pick` | picks at the ground |
+| **Sit / Stand** | `duck/sit` | sits down; the next time, stands up |
+| **Fall** | `duck/fall` | falls over and lies there until the channel is back under 0.5 |
 
-1. Add a channel `duck/roll` to the Constant, and drag it to 1: the duck rolls.
-2. Drag it back to 0 before the next one.
+1. Press **Roll**: the duck rolls.
+2. To play it from your network, add a channel `duck/roll` to the Constant and drag it to 1. Drag
+   it back to 0 before the next one.
+
+A button holds its channel up for a moment, so **Fall** falls over and gets up by itself.
 
 It does one at a time, as a real duck does: what comes while another plays is lost. A seated
 duck takes only `duck/sit`, though its head still turns. Walking stops for a gesture.
@@ -101,9 +106,9 @@ names what the mode leaves out:
 | Walk and Look | walk, turn, the head's yaw and pitch |
 | Body and Look | height, lean, the head's yaw and pitch |
 
-Its output says what the duck would be asked: `duck/walk` ... `duck/lean`, -1 to 1,
-`duck/sit` ... `duck/fall`, 0 to 1, and `duck/idle`, 1 in the Mode that leaves the head free
-(Walk). Wire it into `duck_model` to see it.
+Its Duck page has a button for [each gesture](#make-it-roll). Its output says what the duck would
+be asked: `duck/walk` ... `duck/lean`, -1 to 1, `duck/sit` ... `duck/fall`, 0 to 1, and
+`duck/idle`, 1 in the Mode that leaves the head free (Walk). Wire it into `duck_model` to see it.
 
 A version that drives a real duck over the WiFi follows once it has driven one. It takes the
 same channels and the same table, so it can take this one's place.
