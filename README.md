@@ -34,7 +34,7 @@ Each module has a project to open, in [`touchdesigner/`](touchdesigner/), and a 
 | 3 | [Sense](docs/3-sense.md) | A face, a hand, a voice and a spoken sentence, as numbers to react to. | `03_sense.toe` |
 | 4 | [Think](docs/4-think.md) | A sentence goes in, a model chooses one of your options, the robot plays its clip and answers out loud. | `04_think.toe` |
 | 5 | [Compose](docs/5-compose.md) | All of it as one behaviour: it sleeps, wakes, looks, listens and answers, each a layer in a mixer. | `05_compose.toe` |
-| 6 | [A Microduck, without a duck](docs/6-duck.md) | The same behaviour, another body: a small duck that walks, as a 3D model. | any of them, with `duck_hub` and `duck_model` |
+| 6 | [A Microduck, without a duck](docs/6-duck.md) | The same behaviour, another body: a small duck that walks and does a forward roll, as a 3D model. | any of them, with `duck_hub` and `duck_model` |
 
 The idea behind all of them: a **signal** such as `face/x`, `voice/level` or `brain/yes`
 says what happens and never moves anything. The robot takes channels named after its
@@ -61,8 +61,8 @@ network.
 | [`answer`](docs/4-think.md#an-answer-the-answer-component) | A sentence in, a language model's short spoken answer out, for a speaker to say. |
 | [`speaker`](docs/4-think.md#a-voice-the-speaker-component) | A voice: a sentence in, spoken by Kokoro, Edge's voices, Supertonic or Piper, and how loud it is. |
 | [`mixer`](docs/5-compose.md#mixing-layers-the-mixer-component) | Mixes layers of channels by name: each adds to or takes over what is below it, by its weight. |
-| [`duck_hub`](docs/6-duck.md#the-duck_hub-component) | A demo: the same channels, as what Pollen's Microduck would be asked, walking included, for `duck_model`. It drives no duck yet. |
-| [`duck_model`](docs/6-duck.md#the-duck_model-component) | The Microduck as a 3D model, doing what `duck_hub` asks as Pollen's simulator walked it. No duck needed. Its shapes are Pollen's, [CC BY-NC-SA 4.0](touchdesigner/components/duck_model_LICENSE.md). |
+| [`duck_hub`](docs/6-duck.md#the-duck_hub-component) | A demo: the same channels, as what Pollen's Microduck would be asked, walking and gestures included, for `duck_model`. It drives no duck yet. |
+| [`duck_model`](docs/6-duck.md#the-duck_model-component) | The Microduck as a 3D model, doing what `duck_hub` asks as it did in Pollen's simulator: walking, rolling, kicking, sitting, falling over. No duck needed. Its shapes are Pollen's, [CC BY-NC-SA 4.0](touchdesigner/components/duck_model_LICENSE.md). |
 
 ## Also in the guides
 
