@@ -61,7 +61,7 @@ network.
 | [`answer`](docs/4-think.md#an-answer-the-answer-component) | A sentence in, a language model's short spoken answer out, for a speaker to say. |
 | [`speaker`](docs/4-think.md#a-voice-the-speaker-component) | A voice: a sentence in, spoken by Kokoro, Edge's voices, Supertonic or Piper, and how loud it is. |
 | [`mixer`](docs/5-compose.md#mixing-layers-the-mixer-component) | Mixes layers of channels by name: each adds to or takes over what is below it, by its weight. |
-| [`duck_hub`](docs/6-duck.md#the-duck_hub-component) | Pollen's Microduck: the same channels, as what the duck is asked, walking included. So far it has only driven Pollen's simulator. |
+| [`duck_hub`](docs/6-duck.md#the-duck_hub-component) | A demo: the same channels, as what Pollen's Microduck would be asked, walking included, for `duck_model`. It drives no duck yet. |
 | [`duck_model`](docs/6-duck.md#the-duck_model-component) | The Microduck as a 3D model, doing what `duck_hub` asks as Pollen's simulator walked it. No duck needed. Its shapes are Pollen's, [CC BY-NC-SA 4.0](touchdesigner/components/duck_model_LICENSE.md). |
 
 ## Also in the guides

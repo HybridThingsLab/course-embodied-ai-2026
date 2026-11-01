@@ -15,8 +15,8 @@ Before: [Compose](5-compose.md).
 3. Wire `to_robot` into `duck_hub`, and `duck_hub` into `duck_model`.
 4. Move the robot as you always do: the duck moves its head with it, degree for degree.
 
-`duck_hub`'s **Status** says `no duck: type its address`. That is as it should be: leave
-**Address** empty, and nothing is sent anywhere.
+`duck_hub`'s **Status** says `demo, no duck: Look (Auto)`: this `duck_hub` is a demo, and
+sends nothing anywhere.
 
 Under a tenth of the range (about 14°) a duck's head does not move at all, so small turns
 do nothing here. A real duck does the same.
@@ -64,10 +64,10 @@ until it walks as slowly as you want.
 | `head_yaw`, `head_pitch`, `head_roll` | the head | left, down, tilted left |
 | `neck_pitch` | the neck | back and up |
 | `height`, `lean` | the body, standing | up (1 cm at most), to the right |
-| `mouth` | the beak, 0 to 1 | open |
 
 A duck's sticks carry only some of these at a time. **Mode** chooses which, as on its
-gamepad, and **Auto** chooses from what your table moves:
+gamepad, and **Auto** chooses from the channels that come in, whatever their value. **Status**
+names what the mode leaves out:
 
 | Mode | moves |
 | --- | --- |
@@ -76,11 +76,11 @@ gamepad, and **Auto** chooses from what your table moves:
 | Walk and Look | walk, turn, the head's yaw and pitch |
 | Body and Look | height, lean, the head's yaw and pitch |
 
-Its output says what the duck is asked: `duck/walk` ... `duck/mouth`, -1 to 1 (the mouth 0
-to 1). The other channels are what a real duck reports, and stay 0 here.
+Its output says what the duck would be asked: `duck/walk` ... `duck/lean`, -1 to 1. Wire it
+into `duck_model` to see it.
 
-`duck_hub` is made to drive a real duck over the WiFi, through **Address**. So far it has
-only driven Pollen's simulator, so this guide stops here until it has driven a real one.
+A version that drives a real duck over the WiFi follows once it has driven one. It takes the
+same channels and the same table, so it can take this one's place.
 
 ## The duck_model component
 
