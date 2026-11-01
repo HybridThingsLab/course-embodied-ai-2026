@@ -23,7 +23,7 @@ until you move it: drag the value of `head_yaw`, and it turns.
 | `smooth` (Lag) | takes the edges off |
 | `to_mapping` (Merge) → `reachy_mapping`, and its table `mapping` | the robot's channels pass through; any other channel wired into `to_mapping` moves the robot as a row of `mapping` says ([below](#the-reachy_mapping-component)) |
 | `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back |
-| `reachy_model` | the robot as a picture: the pose the simulator or the robot reports ([below](#without-a-robot-the-reachy_model-component)) |
+| `reachy_model` | the robot as a 3D model: the pose the simulator or the robot reports ([below](#without-a-robot-the-reachy_model-component)) |
 
 Each constant and each layer makes **one channel, named like the robot control it
 moves** ([the robot's channels](robot-channels.md)). Wire `breath` into `sum` and the
@@ -49,20 +49,20 @@ component.
 ## Without a robot: the reachy_model component
 
 [`reachy_model.tox`](../touchdesigner/components/reachy_model.tox) is the robot as a
-picture. It needs no robot, no simulator and no setup: drag it into any project.
+3D model. It needs no robot, no simulator and no setup: drag it into any project.
 
 - **Input:** the same channels as `reachy_hub`. The projects in `touchdesigner` wire
   `robot_pose` into it, with **Robot Limits** off: it shows what the simulator or the
   robot does. Wire what goes into the hub into it instead, and it shows what the robot
   would do, with no simulator running.
-- **Output 1** is the picture (a TOP), **output 2** the pose it shows, named like the
+- **Output 1** is the rendered robot (a TOP), **output 2** the pose it shows, named like the
   hub's output.
 - It shows what the robot would do: values kept inside their ranges and speed limits.
   With **Robot Limits** off it shows the channels as they arrive.
 - **Status** says how many channels arrive, and names one it does not know (a typing
   mistake, or a leading `/`).
 - **Camera Turn**, **Camera Height** and **Camera Distance** move the view. With
-  **Floor** off the background is transparent, to lay the robot over another picture.
+  **Floor** off the background is transparent, to lay the robot over another image.
 
 ## The reachy_mapping component
 

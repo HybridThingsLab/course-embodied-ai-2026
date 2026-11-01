@@ -34,6 +34,7 @@ Each module has a project to open, in [`touchdesigner/`](touchdesigner/), and a 
 | 3 | [Sense](docs/3-sense.md) | A face, a hand, a voice and a spoken sentence, as numbers to react to. | `03_sense.toe` |
 | 4 | [Think](docs/4-think.md) | A sentence goes in, a model chooses one of your options, the robot plays its clip and answers out loud. | `04_think.toe` |
 | 5 | [Compose](docs/5-compose.md) | All of it as one behaviour: it sleeps, wakes, looks, listens and answers, each a layer in a mixer. | `05_compose.toe` |
+| 6 | [A Microduck, without a duck](docs/6-duck.md) | The same behaviour, another body: a small duck that walks, as a 3D model. | any of them, with `duck_hub` and `duck_model` |
 
 The idea behind all of them: a **signal** such as `face/x`, `voice/level` or `brain/yes`
 says what happens and never moves anything. The robot takes channels named after its
@@ -48,7 +49,7 @@ network.
 | Component | What it does |
 | --------- | ------------ |
 | [`reachy_hub`](docs/1-puppet.md#the-reachy_hub-component) | The robot: channels in, its pose out, and Start / Stop for the robot software. |
-| [`reachy_model`](docs/1-puppet.md#without-a-robot-the-reachy_model-component) | The robot as a picture. Needs no robot and no setup. |
+| [`reachy_model`](docs/1-puppet.md#without-a-robot-the-reachy_model-component) | The robot as a 3D model. Needs no robot and no setup. |
 | [`reachy_mapping`](docs/1-puppet.md#the-reachy_mapping-component) | Turns any channel into the robot's, by a table: which channel moves which part, and how far. In every starter, right before `to_robot`. |
 | [`clip_player`](docs/2-animate.md#playing-a-clip-the-clip_player-component) | Plays a clip. |
 | [`recorder`](docs/2-animate.md#making-a-clip-the-recorder-component) | Makes a clip. |
@@ -60,6 +61,8 @@ network.
 | [`answer`](docs/4-think.md#an-answer-the-answer-component) | A sentence in, a language model's short spoken answer out, for a speaker to say. |
 | [`speaker`](docs/4-think.md#a-voice-the-speaker-component) | A voice: a sentence in, spoken by Kokoro, Edge's voices, Supertonic or Piper, and how loud it is. |
 | [`mixer`](docs/5-compose.md#mixing-layers-the-mixer-component) | Mixes layers of channels by name: each adds to or takes over what is below it, by its weight. |
+| [`duck_hub`](docs/6-duck.md#the-duck_hub-component) | Pollen's Microduck: the same channels, as what the duck is asked, walking included. So far it has only driven Pollen's simulator. |
+| [`duck_model`](docs/6-duck.md#the-duck_model-component) | The Microduck as a 3D model, doing what `duck_hub` asks as Pollen's simulator walked it. No duck needed. Its shapes are Pollen's, [CC BY-NC-SA 4.0](touchdesigner/components/duck_model_LICENSE.md). |
 
 ## Also in the guides
 

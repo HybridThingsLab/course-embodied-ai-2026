@@ -21,7 +21,7 @@ press **Play**.
 | `teach` (Rename) | `recorder`'s Teach, named `reachy/teach` for the robot |
 | `to_mapping` (Merge) → `reachy_mapping`, and its table `mapping` | the two together; the robot's channels pass through `reachy_mapping` ([Puppet](1-puppet.md#the-reachy_mapping-component)) |
 | `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back, into `recorder` |
-| `reachy_model` | the robot as a picture, from `to_robot` |
+| `reachy_model` | the robot as a 3D model: the pose the simulator or the robot reports |
 
 **Make a clip of your own, pose by pose:**
 
