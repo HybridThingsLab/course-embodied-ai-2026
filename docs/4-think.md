@@ -25,8 +25,7 @@ nothing back.
 | `pick_yes` → `play_yes` (a `clip_player`), and the same for each option | the chosen option starts the player that holds its clip |
 | `waiting` → `tilt` → `as_roll` → `ease` | while it waits for the answer, the head tilts |
 | `base` and `motion` (Math: Combine CHOPs *Add*) | everything added up |
-| `to_mapping` (Merge) → `reachy_mapping`, and its table `mapping` | the robot's channels pass through; a signal wired into `to_mapping` moves the robot as a row of `mapping` says ([Puppet](1-puppet.md#the-reachy_mapping-component)) |
-| `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back |
+| `to_robot` (Null) → `reachy_mapping` → `reachy_hub` → `robot_pose` (Null) | out to the robot through `reachy_mapping` ([Puppet](1-puppet.md#the-reachy_mapping-component)), and its measured pose back |
 | `answer_too` → `answer` (an `answer`) → `speaker` (a `speaker`) | every sentence `brain` is asked goes to `answer` too; it writes a short answer and `speaker` says it. `answer_out` shows its channels, `talk_*` move the antennas with the voice |
 | `listen_gate` → `heard` | what `speech` hears goes to `brain`, unless the robot was speaking just then |
 

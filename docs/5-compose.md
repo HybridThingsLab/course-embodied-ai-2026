@@ -39,9 +39,10 @@ layer: `someone` (a face or a voice) → `wake` (up at once, down over a few sec
 whether an act plays are renamed to `gaze`, `listen`, `think` and `act`. `leading` shows
 the weights as the mixer uses them.
 
-The mix goes through `reachy_mapping` to `to_robot`. A signal wired into `to_mapping`
-moves the robot on top of it, as a row of the table `mapping` says
-([Puppet](1-puppet.md#the-reachy_mapping-component)).
+What the mixer makes goes to the robot through `reachy_mapping`
+([Puppet](1-puppet.md#the-reachy_mapping-component)): on its Mapping page,
+**antenna/left out** and **antenna/right out** at -1.55 and 1.55 make every antenna
+move of the character half as big.
 
 Change first: the **Weight** of `idle` on the mixer's Mixer page (0 = still, 2 =
 restless), the Lag of `wake` (how soon it falls asleep), and the **Mode** of `act`: as
@@ -74,5 +75,6 @@ A layer's weight is its **Weight** times its channel in input 1, if there is one
 **Weight** 0 mutes a layer. Take Over goes no further than 1; Add may (2 = twice as
 much).
 
-**Try:** a layer of your own. Wire a CHOP with robot channels into input 9, give it a
-**Name** and a **Mode**, and its weight a channel of that name in `weights`.
+**Try:** a layer of your own: wire a CHOP with robot channels into the mixer's input
+9. Give the layer a **Name** and a **Mode**, and
+its weight a channel of that name in `weights`.

@@ -21,8 +21,7 @@ until you move it: drag the value of `head_yaw`, and it turns.
 | `sum` (Math: Combine CHOPs *Add*) | adds what is wired into it to `base`, channel by channel |
 | `energy` (Math) | one Multiply for everything: 0 = still, 2 = twice as much |
 | `smooth` (Lag) | takes the edges off |
-| `to_mapping` (Merge) → `reachy_mapping`, and its table `mapping` | the robot's channels pass through; any other channel wired into `to_mapping` moves the robot as a row of `mapping` says ([below](#the-reachy_mapping-component)) |
-| `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back |
+| `to_robot` (Null) → `reachy_mapping` → `reachy_hub` → `robot_pose` (Null) | out to the robot through `reachy_mapping` ([below](#the-reachy_mapping-component)), and its measured pose back |
 | `reachy_model` | the robot as a 3D model: the pose the simulator or the robot reports ([below](#without-a-robot-the-reachy_model-component)) |
 
 Each constant and each layer makes **one channel, named like the robot control it
@@ -66,49 +65,47 @@ component.
 
 ## The reachy_mapping component
 
-[`reachy_mapping.tox`](../touchdesigner/components/reachy_mapping.tox) turns any
-channel into the robot's, by a table. Every starter,
-`01_puppet.toe` to `05_compose.toe`, has it right before `to_robot`, with its table
-next to it: `mapping`.
+[`reachy_mapping.tox`](../touchdesigner/components/reachy_mapping.tox) sits between
+`to_robot` and `reachy_hub` in `01_puppet.toe`, `03_sense.toe`, `04_think.toe` and
+`05_compose.toe`: everything the robot gets goes through it. For each part of the robot
+it has an **in** (where the channel runs as it comes in) and an **out** (where it goes
+to the robot). Both start at the robot's whole range, so everything passes as it is
+until you change one.
 
-- **Input 1:** any channels. Those named `reachy/...` pass through unchanged. Any other
-  becomes a robot channel where a row of the table names it; the rest stays behind.
-- **Input 2:** the table, a Table DAT. Without one, the component uses its own rows,
-  the ones below. Keep yours in your project: the rows inside the component are read
-  again from its file whenever the project opens.
-- **Output:** the robot's channels, with what the rows make added.
-- **Status** says what is wrong with a row, and which rows are in use.
+- **Input:** channels named like the robot's ([the robot's channels](robot-channels.md)).
+- **Output:** each of them from its in into its out, into `reachy_hub`.
+- **Mapping page:** for each part of the robot an **in** and an **out**, two numbers
+  each. What you type there is saved with your project.
+- **Status** says what is wrong, which robot channels are in use, and which channels
+  came in that are none of the robot's (a typing mistake, for one).
 
-A row says: take this channel, which runs from in_min to in_max, and make it this robot
-channel, from out_min to out_max. The rows it comes with:
+What the Mapping page starts with, in and out alike:
 
-| channel | reachy | in_min | in_max | out_min | out_max |
-| --- | --- | --- | --- | --- | --- |
-| `face/x` | `head/yaw` | -1 | 1 | -35 | 35 |
-| `face/y` | `head/pitch` | -1 | 1 | -20 | 20 |
-| `hand/x` | `head/yaw` | -1 | 1 | -35 | 35 |
-| `hand/y` | `head/pitch` | -1 | 1 | 20 | -20 |
-| `voice/level` | `antenna/left` | 0 | 1 | 0 | 0.5 |
-| `voice/level` | `antenna/right` | 0 | 1 | 0 | -0.5 |
-| `brain/thinking` | `head/roll` | 0 | 1 | 0 | 8 |
-| `speaker/level` | `antenna/left` | 0 | 1 | 0 | 0.4 |
-| `speaker/level` | `antenna/right` | 0 | 1 | 0 | -0.4 |
+| | in and out |
+| --- | --- |
+| `head/x` | -0.015, 0.022 |
+| `head/y` | -0.04, 0.04 |
+| `head/z` | -0.035, 0.022 |
+| `head/roll` | -30, 30 |
+| `head/pitch` | -27, 27 |
+| `head/yaw` | -175, 175 |
+| `antenna/left` | -3.1, 3.1 |
+| `antenna/right` | -3.1, 3.1 |
+| `body_yaw` | -160, 160 |
 
-Wire `face_signal` into `to_mapping`, and the robot looks at the face; `hand_signal`,
-at the hand. `voice_signal` and `speaker` move the antennas, and `brain_signal` tilts
-the head while it thinks.
-
-- **reachy** is one of the nine [robot channels](robot-channels.md), with or without
-  `reachy/`.
-- A value beyond in_min or in_max counts as that end. out_min above out_max turns it
-  the other way: a hand higher up makes the head look up.
-- Rows that move the same robot channel are added up, and added to that channel where
-  it passes through: the face turning the head 20° one way and the hand 10° the other
-  turn it 10°.
+- **out** narrower makes a part move less: **head/yaw out** -87.5 and 87.5, and every
+  turn of the head is half as big. Its first number above the second turns it the
+  other way.
+- **in** is where a channel runs: 0 and 1 for a signal from 0 to 1, -1 and 1 for an
+  LFO - then that range is spread over out.
+- In and out act on the whole channel, everything added up on its way to `to_robot`.
+- A value beyond in counts as its end. Right-click a field, *Reset to Default*, to go
+  back to what it started with.
 - How far the robot goes in the end is `reachy_hub`'s to say: it keeps every channel
   inside the robot's limits.
 
-**Try:** a slider of your own. A Constant with a channel `my/slider` (0 to 1), wired
-into `to_mapping`, and a row `my/slider`, `body_yaw`, 0, 1, -90, 90: the slider turns
-the base. A signal from the camera jitters: smooth it before it goes in, with a Filter
-(One Euro) or a Lag (0.2).
+**Try:** an LFO (it runs from -1 to 1), a Rename CHOP behind it (`chan1` to
+`reachy/head/yaw`), wired into `sum`. On `reachy_mapping`'s Mapping page set **head/yaw
+in** to -1 and 1 and **head/yaw out** to -30 and 30: the head sways 30° to each side
+(`head_yaw` now counts from -1 to 1 as well). A signal from the camera jitters: smooth
+it before it goes in, with a Filter (One Euro) or a Lag (0.2).

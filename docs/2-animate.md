@@ -18,9 +18,8 @@ press **Play**.
 | `clips` (Math: Combine CHOPs *Add*) | what `library` plays, added to all nine channels at 0 |
 | `pose` (Constant) | a pose typed in, for the simulator |
 | `switch` (Switch) | what the robot follows: Index 0 = `pose`, 1 = `clips` |
-| `teach` (Rename) | `recorder`'s Teach, named `reachy/teach` for the robot |
-| `to_mapping` (Merge) → `reachy_mapping`, and its table `mapping` | the two together; the robot's channels pass through `reachy_mapping` ([Puppet](1-puppet.md#the-reachy_mapping-component)) |
-| `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back, into `recorder` |
+| `teach` (Constant) | the channel `reachy/teach`; its value is `recorder`'s Teach, `op('recorder/out2')['teach']` |
+| `to_robot` (Merge) → `reachy_hub` → `robot_pose` (Null) | `switch` and `teach` together, out to the robot, and its measured pose back, into `recorder` |
 | `reachy_model` | the robot as a 3D model: the pose the simulator or the robot reports |
 
 **Make a clip of your own, pose by pose:**
@@ -72,9 +71,9 @@ far: wire it into a `clip_player` to play it.
 - **Add Key** adds the input as it is now as the next pose. **Remove Last Key** and
   **Clear** undo. **Seconds per Key** is the time from one pose to the next.
 - **Record** on, move, **Record** off: a take, one pose per frame. It replaces the keys.
-- **Teach**, on the Teach page: output 2, `teach`, is 1 while it is on. Wired into the
-  robot as `reachy/teach` (as in `02_animate.toe`), it makes the motors soft, to
-  move the robot by hand. **Teach While Recording** (on) makes `teach` 1 while a take
+- **Teach**, on the Teach page: output 2, `teach`, is 1 while it is on. Given to the
+  robot as `reachy/teach` (in `02_animate.toe`, a Constant whose value refers to it),
+  it makes the motors soft, to move the robot by hand. **Teach While Recording** (on) makes `teach` 1 while a take
   is recorded as well. Switch it off for a take in the simulator: in teach mode the
   robot follows nothing.
 - **Easing** (*Smooth* or *Linear*) is how it moves between keys. **Stretch** makes the

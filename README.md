@@ -50,7 +50,7 @@ network.
 | --------- | ------------ |
 | [`reachy_hub`](docs/1-puppet.md#the-reachy_hub-component) | The robot: channels in, its pose out, and Start / Stop for the robot software. |
 | [`reachy_model`](docs/1-puppet.md#without-a-robot-the-reachy_model-component) | The robot as a 3D model. Needs no robot and no setup. |
-| [`reachy_mapping`](docs/1-puppet.md#the-reachy_mapping-component) | Turns any channel into the robot's, by a table: which channel moves which part, and how far. In every starter, right before `to_robot`. |
+| [`reachy_mapping`](docs/1-puppet.md#the-reachy_mapping-component) | Everything the robot gets, on its way to `reachy_hub`: an in and an out for each part of the robot, on its Mapping page - the robot's range both, so it passes as it is until you change one. In every starter but 02_animate. |
 | [`clip_player`](docs/2-animate.md#playing-a-clip-the-clip_player-component) | Plays a clip. |
 | [`recorder`](docs/2-animate.md#making-a-clip-the-recorder-component) | Makes a clip. |
 | [`face_signal`](docs/3-sense.md#a-face-the-face_signal-component) | A face in front of the camera. |

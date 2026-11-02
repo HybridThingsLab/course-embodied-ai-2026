@@ -26,15 +26,16 @@ robot, or the real one.
 | `thumbs_up` → `nod` (a `clip_player`) | thumbs up, and it plays the clip `yes` |
 | `level` → `perk` → `lean_left`, `lean_right` → `as_left`, `as_right` | speak, and the antennas lean in: louder is further |
 | `base` and `motion` (Math: Combine CHOPs *Add*) | the three reactions added up |
-| `to_mapping` (Merge) → `reachy_mapping`, and its table `mapping` | the robot's channels pass through; a signal wired into `to_mapping` moves the robot as a row of `mapping` says ([Puppet](1-puppet.md#the-reachy_mapping-component)) |
-| `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back |
+| `to_robot` (Null) → `reachy_mapping` → `reachy_hub` → `robot_pose` (Null) | out to the robot through `reachy_mapping` ([Puppet](1-puppet.md#the-reachy_mapping-component)), and its measured pose back |
 
 The three are three kinds of reaction: a position that is followed, an event that
 starts something, and a strength that becomes an amount. Change their numbers first:
 the Multiply of `degrees`, the Lag of `follow`, the **Clip** of `nod`, the gesture
-named in `thumbs_up`. Then add your own chains, ending in `motion`. Or the short way:
-wire `hand_out` into `to_mapping`, and the rows `hand/x` and `hand/y` of `mapping` turn
-the head towards your hand as well.
+named in `thumbs_up`. Then add your own chains, ending in `motion`. Or let
+`reachy_mapping` give the size: **Select** `hand/x` from `hand_out` (-1 to 1) →
+**Rename** (to `reachy/body_yaw`) → **Lag** → into `motion`, and on `reachy_mapping`'s
+Mapping page set **body_yaw in** to -1 and 1 and **body_yaw out** to -45 and 45. Move
+your hand and the body turns with it.
 
 - **`face` says `no data`:** press **Connect to MediaPipe** on `face` and on `hand`.
 - **`face` says `1 face` although the camera is off:** MediaPipe sends a stored face
