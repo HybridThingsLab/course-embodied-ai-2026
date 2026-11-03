@@ -1,11 +1,10 @@
 # Puppet
 
-Module 1: move the robot directly. Sliders, oscillators and noise become a character
-that breathes, nods and looks around.
+Module 1: move the robot directly, part by part, from 0 to 1.
 
 Next: [Animate](2-animate.md).
 
-## A first character: 01_puppet.toe
+## Moving it yourself: 01_puppet.toe
 
 Open [`touchdesigner/01_puppet.toe`](../touchdesigner/01_puppet.toe), click
 `reachy_hub`, press **Start** on its Station page and wait for `ready`. `reachy_model`
@@ -14,21 +13,16 @@ until you move it: drag the value of `head_yaw`, and it turns.
 
 | Operator | What it does |
 | --- | --- |
-| `head_x` … `body_yaw` (Constant) | one robot channel each, at 0: drag a value and the robot follows |
+| `head_x` … `body_yaw` (Constant) | one robot channel each, from 0 to 1, at 0.5 (the middle): drag a value and the robot follows |
 | `base` (Merge) | the nine channels together, so every channel is always there |
-| `breath`, `nod`, `ant_left`, `ant_right` (LFO) | below the constants, not wired yet: the head rising 3 mm, a 1.5° nod, the antennas swaying |
-| `look` (Noise) | not wired yet either: the head drifting a few degrees, never quite still |
-| `sum` (Math: Combine CHOPs *Add*) | adds what is wired into it to `base`, channel by channel |
-| `energy` (Math) | one Multiply for everything: 0 = still, 2 = twice as much |
 | `smooth` (Lag) | takes the edges off |
-| `reachy_mapping` | beneath the network, not wired to it: a value from 0 to 1, named like a robot channel, into how far that part goes ([below](#the-reachy_mapping-component)) |
-| `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back |
-| `reachy_model` | the robot as a 3D model: the pose the simulator or the robot reports ([below](#without-a-robot-the-reachy_model-component)) |
+| `to_robot` (Null) → `reachy_mapping` | everything the robot gets, from 0 to 1 into how far each part goes ([below](#the-reachy_mapping-component)) |
+| `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back |
+| `reachy_model` → `display` (Null TOP) | the robot as a 3D model: the pose the simulator or the robot reports ([below](#without-a-robot-the-reachy_model-component)); `display` has its display flag on, so the robot is behind the network |
 
-Each constant and each layer makes **one channel, named like the robot control it
-moves** ([the robot's channels](robot-channels.md)). Wire `breath` into `sum` and the
-robot breathes; then the others, and change their Amplitude and Frequency. To add a
-movement of your own, add a CHOP with such a channel and wire it into `sum`.
+Each constant makes **one channel, named like the robot control it moves** ([the
+robot's channels](robot-channels.md)). 0 is one end of what that part can do, 1 the
+other end, 0.5 the middle.
 
 ## The reachy_hub component
 
@@ -81,9 +75,10 @@ start. Leave it there when you bring your value to 0 to 1; set it to your value'
 instead (-1 and 1 for an LFO) and you can leave the Math out.
 
 - **Input:** values from 0 to 1, named like the robot's channels. For several, merge
-  them first (`to_mapping` in `03_sense.toe` and `04_think.toe`).
+  them first (`to_mapping` in `03_sense.toe` and `04_think.toe`). In `01_puppet.toe`
+  everything goes through it, right before `reachy_hub`.
 - **Output:** each of them in degrees, metres or radians: into the mix, as the robot's
-  other layers.
+  other layers (in `01_puppet.toe` into `reachy_hub`).
 - **Mapping page:** an **in** and an **out** for each part of the robot, two numbers
   each. What you type there is saved with your project. Right-click a field, *Reset to
   Default*, to go back.
@@ -115,13 +110,15 @@ rest position, because they reach further one way than the other.
   it the other way.
 - A value beyond in (below 0 or above 1, to start) counts as in's end, and Status
   names it.
-- Clips, recordings, poses and the sliders of `01_puppet.toe` are in degrees and metres
-  already: they go into the mix as they are, not through `reachy_mapping`.
+- Clips and recordings are in degrees and metres already: they go into the mix as they
+  are, beside `reachy_mapping` (in `02_animate.toe` the typed `pose` goes through it, the
+  clips beside it).
 - How far the robot goes in the end is `reachy_hub`'s to say: it keeps every channel
   inside the robot's limits.
 
-**Try:** in `01_puppet.toe` it sits beneath the network, not wired to it. An LFO (it
-runs from -1 to 1), a Math CHOP behind it (From Range -1 and 1, To Range 0 and 1), a
-Rename CHOP (`chan1` to `reachy/head/yaw`), into `reachy_mapping`, and its output into
-`sum`. Set **head/yaw out** to -30 and 30: the head sways 30° to each side. Or leave
-the Math out and set **head/yaw in** to -1 and 1.
+**Try:** in `01_puppet.toe` it sits right before `reachy_hub`. Set **head/yaw out** to
+-30 and 30: `head_yaw` then turns the head 30° to each side at most. Then a value of
+your own in place of `head_yaw`: an LFO (it
+runs from -1 to 1), a Math CHOP behind it (From Range -1 and 1, To Range 0 and 1) and a
+Rename CHOP (`chan1` to `reachy/head/yaw`), wired into `base` where `head_yaw` was. The
+head sways 30° to each side. Or leave the Math out and set **head/yaw in** to -1 and 1.

@@ -29,7 +29,7 @@ Each module has a project to open, in [`touchdesigner/`](touchdesigner/), and a 
 
 | | Module | What it is about | Open |
 | - | ------ | ---------------- | ---- |
-| 1 | [Puppet](docs/1-puppet.md) | Move the robot directly: sliders, oscillators and noise become a character. | `01_puppet.toe` |
+| 1 | [Puppet](docs/1-puppet.md) | Move the robot directly, part by part, from 0 to 1. | `01_puppet.toe` |
 | 2 | [Animate](docs/2-animate.md) | Movements over time: play clips such as yes and no, and make your own. | `02_animate.toe` |
 | 3 | [Sense](docs/3-sense.md) | A face, a hand, a voice and a spoken sentence, as numbers to react to. | `03_sense.toe` |
 | 4 | [Think](docs/4-think.md) | A sentence goes in, a model chooses one of your options, the robot plays its clip and answers out loud. | `04_think.toe` |
@@ -50,7 +50,7 @@ network.
 | --------- | ------------ |
 | [`reachy_hub`](docs/1-puppet.md#the-reachy_hub-component) | The robot: channels in, its pose out, and Start / Stop for the robot software. |
 | [`reachy_model`](docs/1-puppet.md#without-a-robot-the-reachy_model-component) | The robot as a 3D model. Needs no robot and no setup. |
-| [`reachy_mapping`](docs/1-puppet.md#the-reachy_mapping-component) | A value from 0 to 1, named like a robot channel, into how far that part goes: an in (0 and 1 to start) and an out for each part, on its Mapping page. The face, the voice and the thinking tilt go through it in the starters, and so does a value of your own. |
+| [`reachy_mapping`](docs/1-puppet.md#the-reachy_mapping-component) | A value from 0 to 1, named like a robot channel, into how far that part goes: an in (0 and 1 to start) and an out for each part, on its Mapping page. Everything in `01_puppet.toe` goes through it, right before the hub; in the starters after it the typed pose, the face, the voice and the thinking tilt do, and so does a value of your own. |
 | [`clip_player`](docs/2-animate.md#playing-a-clip-the-clip_player-component) | Plays a clip. |
 | [`recorder`](docs/2-animate.md#making-a-clip-the-recorder-component) | Makes a clip. |
 | [`face_signal`](docs/3-sense.md#a-face-the-face_signal-component) | A face in front of the camera. |

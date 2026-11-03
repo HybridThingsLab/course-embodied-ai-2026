@@ -16,11 +16,11 @@ press **Play**.
 | `library` (a `clip_player`) | plays a clip from [`touchdesigner/clips`](../touchdesigner/clips/README.md): yes, no, maybe, look_around, cheerful1, and the ones you make |
 | `recorder` | makes a clip from the pose the robot reports; its Teach page makes the real robot soft |
 | `clips` (Math: Combine CHOPs *Add*) | what `library` plays, added to all nine channels at 0 |
-| `pose` (Constant) | a pose typed in, for the simulator |
+| `pose` (Constant) → `smooth` (Lag) → `reachy_mapping` | a pose typed in, for the simulator: each part from 0 to 1, 0.5 the middle, into how far it goes ([Puppet](1-puppet.md#the-reachy_mapping-component)) |
 | `switch` (Switch) | what the robot follows: Index 0 = `pose`, 1 = `clips` |
 | `teach` (Constant) | the channel `reachy/teach`; its value is `recorder`'s Teach, `op('recorder/out2')['teach']` |
 | `to_robot` (Merge) → `reachy_hub` → `robot_pose` (Null) | `switch` and `teach` together, out to the robot, and its measured pose back, into `recorder` |
-| `reachy_model` | the robot as a 3D model: the pose the simulator or the robot reports |
+| `reachy_model` → `display` (Null TOP) | the robot as a 3D model: the pose the simulator or the robot reports, behind the network |
 
 **Make a clip of your own, pose by pose:**
 
@@ -29,8 +29,8 @@ press **Play**.
   and press **Add Key** on its Record page. Next pose, Add Key again. Switch Teach off
   when you are done. Never move the robot by hand while Teach is off: the motors hold
   against you.
-- **In the simulator:** set the Index of `switch` to 0, type a pose into `pose` and press
-  **Add Key**. Next pose, Add Key again. Set the Index back to 1 when you are done.
+- **In the simulator:** set the Index of `switch` to 0, type a pose into `pose` (each part
+  from 0 to 1) and press **Add Key**. Next pose, Add Key again. Set the Index back to 1 when you are done.
 
 Then give it a **Name** on `recorder` and press **Save**: it becomes a clip file, in the
 Clip menu of `library` and of every other `clip_player`. Choose it there and press
