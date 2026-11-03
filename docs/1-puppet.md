@@ -21,7 +21,8 @@ until you move it: drag the value of `head_yaw`, and it turns.
 | `sum` (Math: Combine CHOPs *Add*) | adds what is wired into it to `base`, channel by channel |
 | `energy` (Math) | one Multiply for everything: 0 = still, 2 = twice as much |
 | `smooth` (Lag) | takes the edges off |
-| `to_robot` (Null) → `reachy_mapping` → `reachy_hub` → `robot_pose` (Null) | out to the robot through `reachy_mapping` ([below](#the-reachy_mapping-component)), and its measured pose back |
+| `reachy_mapping` | beneath the network, not wired to it: a value from 0 to 1, named like a robot channel, into how far that part goes ([below](#the-reachy_mapping-component)) |
+| `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back |
 | `reachy_model` | the robot as a 3D model: the pose the simulator or the robot reports ([below](#without-a-robot-the-reachy_model-component)) |
 
 Each constant and each layer makes **one channel, named like the robot control it
@@ -65,47 +66,62 @@ component.
 
 ## The reachy_mapping component
 
-[`reachy_mapping.tox`](../touchdesigner/components/reachy_mapping.tox) sits between
-`to_robot` and `reachy_hub` in `01_puppet.toe`, `03_sense.toe`, `04_think.toe` and
-`05_compose.toe`: everything the robot gets goes through it. For each part of the robot
-it has an **in** (where the channel runs as it comes in) and an **out** (where it goes
-to the robot). Both start at the robot's whole range, so everything passes as it is
-until you change one.
+[`reachy_mapping.tox`](../touchdesigner/components/reachy_mapping.tox) is how a value of
+your own reaches the robot. The rule:
 
-- **Input:** channels named like the robot's ([the robot's channels](robot-channels.md)).
-- **Output:** each of them from its in into its out, into `reachy_hub`.
-- **Mapping page:** for each part of the robot an **in** and an **out**, two numbers
-  each. What you type there is saved with your project.
-- **Status** says what is wrong, which robot channels are in use, and which channels
-  came in that are none of the robot's (a typing mistake, for one).
+1. **Bring it to 0 to 1:** a Math CHOP, its Range page: **From Range** where your value
+   runs (-1 and 1 for an LFO), **To Range** 0 and 1. Ease it (Lag) before, if it jitters.
+2. **Name it like a robot channel:** a Rename CHOP, `chan1` to `reachy/head/yaw` …
+   ([the robot's channels](robot-channels.md)).
+3. **Wire it into `reachy_mapping`.** On its Mapping page, **out** says where that part
+   goes at 0 and at 1.
 
-What the Mapping page starts with, in and out alike:
+Its Mapping page also has an **in** for each part: where your value runs, 0 and 1 to
+start. Leave it there when you bring your value to 0 to 1; set it to your value's range
+instead (-1 and 1 for an LFO) and you can leave the Math out.
 
-| | in and out |
-| --- | --- |
-| `head/x` | -0.015, 0.022 |
-| `head/y` | -0.04, 0.04 |
-| `head/z` | -0.035, 0.022 |
-| `head/roll` | -30, 30 |
-| `head/pitch` | -27, 27 |
-| `head/yaw` | -175, 175 |
-| `antenna/left` | -3.1, 3.1 |
-| `antenna/right` | -3.1, 3.1 |
-| `body_yaw` | -160, 160 |
+- **Input:** values from 0 to 1, named like the robot's channels. For several, merge
+  them first (`to_mapping` in `03_sense.toe` and `04_think.toe`).
+- **Output:** each of them in degrees, metres or radians: into the mix, as the robot's
+  other layers.
+- **Mapping page:** an **in** and an **out** for each part of the robot, two numbers
+  each. What you type there is saved with your project. Right-click a field, *Reset to
+  Default*, to go back.
+- **Status** says what is wrong, which robot channels are in use, which come in beyond
+  their in, and which channels came in that are none of the robot's (not renamed yet, or
+  a typing mistake).
 
-- **out** narrower makes a part move less: **head/yaw out** -87.5 and 87.5, and every
-  turn of the head is half as big. Its first number above the second turns it the
-  other way.
-- **in** is where a channel runs: 0 and 1 for a signal from 0 to 1, -1 and 1 for an
-  LFO - then that range is spread over out.
-- In and out act on the whole channel, everything added up on its way to `to_robot`.
-- A value beyond in counts as its end. Right-click a field, *Reset to Default*, to go
-  back to what it started with.
+What the Mapping page starts with - every in at 0 and 1, every out the robot's whole
+range:
+
+| | in | out |
+| --- | --- | --- |
+| `head/x` | 0, 1 | -0.015, 0.022 |
+| `head/y` | 0, 1 | -0.04, 0.04 |
+| `head/z` | 0, 1 | -0.035, 0.022 |
+| `head/roll` | 0, 1 | -30, 30 |
+| `head/pitch` | 0, 1 | -27, 27 |
+| `head/yaw` | 0, 1 | -175, 175 |
+| `antenna/left` | 0, 1 | -3.1, 3.1 |
+| `antenna/right` | 0, 1 | -3.1, 3.1 |
+| `body_yaw` | 0, 1 | -160, 160 |
+
+`reachy/head/yaw` at 0 turns the head as far right as it goes, at 1 as far left, at 0.5
+straight ahead. Head x and z are the exception: their 0.5 is a few millimetres off the
+rest position, because they reach further one way than the other.
+
+- A narrower **out** makes a gentler move: -35 and 35 for `03_sense.toe`'s face. 0 and 8
+  moves one way only (`04_think.toe`'s tilt). The first number above the second turns
+  it the other way.
+- A value beyond in (below 0 or above 1, to start) counts as in's end, and Status
+  names it.
+- Clips, recordings, poses and the sliders of `01_puppet.toe` are in degrees and metres
+  already: they go into the mix as they are, not through `reachy_mapping`.
 - How far the robot goes in the end is `reachy_hub`'s to say: it keeps every channel
   inside the robot's limits.
 
-**Try:** an LFO (it runs from -1 to 1), a Rename CHOP behind it (`chan1` to
-`reachy/head/yaw`), wired into `sum`. On `reachy_mapping`'s Mapping page set **head/yaw
-in** to -1 and 1 and **head/yaw out** to -30 and 30: the head sways 30° to each side
-(`head_yaw` now counts from -1 to 1 as well). A signal from the camera jitters: smooth
-it before it goes in, with a Filter (One Euro) or a Lag (0.2).
+**Try:** in `01_puppet.toe` it sits beneath the network, not wired to it. An LFO (it
+runs from -1 to 1), a Math CHOP behind it (From Range -1 and 1, To Range 0 and 1), a
+Rename CHOP (`chan1` to `reachy/head/yaw`), into `reachy_mapping`, and its output into
+`sum`. Set **head/yaw out** to -30 and 30: the head sways 30° to each side. Or leave
+the Math out and set **head/yaw in** to -1 and 1.

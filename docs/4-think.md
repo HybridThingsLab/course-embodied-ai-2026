@@ -23,9 +23,10 @@ nothing back.
 | `speech` (a `speech_signal`) | what it hears goes into `brain` as a sentence |
 | `brain` (a `brain_signal`) | asks the model which option fits; `brain_out` shows its channels |
 | `pick_yes` → `play_yes` (a `clip_player`), and the same for each option | the chosen option starts the player that holds its clip |
-| `waiting` → `tilt` → `as_roll` → `ease` | while it waits for the answer, the head tilts |
+| `waiting` → `as_roll` → `ease` | while it waits for the answer (`brain/thinking`, 0 to 1), named like the head's tilt |
+| `to_mapping` → `reachy_mapping` → `mapped` | the tilt and the talking antennas, from 0 to 1, into how far: head/roll out 0 and 8, the antennas' 0 and 0.4 ([Puppet](1-puppet.md#the-reachy_mapping-component)) |
 | `base` and `motion` (Math: Combine CHOPs *Add*) | everything added up |
-| `to_robot` (Null) → `reachy_mapping` → `reachy_hub` → `robot_pose` (Null) | out to the robot through `reachy_mapping` ([Puppet](1-puppet.md#the-reachy_mapping-component)), and its measured pose back |
+| `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back |
 | `answer_too` → `answer` (an `answer`) → `speaker` (a `speaker`) | every sentence `brain` is asked goes to `answer` too; it writes a short answer and `speaker` says it. `answer_out` shows its channels, `talk_*` move the antennas with the voice |
 | `listen_gate` → `heard` | what `speech` hears goes to `brain`, unless the robot was speaking just then |
 

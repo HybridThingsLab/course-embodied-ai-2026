@@ -22,20 +22,22 @@ robot, or the real one.
 | --- | --- |
 | `MediaPipe` | the camera, and what MediaPipe finds in its picture |
 | `face`, `hand`, `voice` | the three signals; `face_out`, `hand_out` and `voice_out` show their channels |
-| `look` → `degrees` → `as_head` → `steady` → `follow` | it looks at you: where the face is becomes a turn of the head |
+| `look` → `steady` → `follow` → `zero_to_one` → `as_head` | it looks at you: where the face is, eased, from 0 to 1, named like the head's turn |
 | `thumbs_up` → `nod` (a `clip_player`) | thumbs up, and it plays the clip `yes` |
-| `level` → `perk` → `lean_left`, `lean_right` → `as_left`, `as_right` | speak, and the antennas lean in: louder is further |
+| `level` → `perk` → `as_left`, `as_right` | speak, and the antennas lean in: louder is further |
+| `to_mapping` → `reachy_mapping` → `mapped` | the face and the voice, from 0 to 1, into how far the head turns (head/yaw out -35 and 35) and the antennas lean (0 and 0.5) ([Puppet](1-puppet.md#the-reachy_mapping-component)) |
 | `base` and `motion` (Math: Combine CHOPs *Add*) | the three reactions added up |
-| `to_robot` (Null) → `reachy_mapping` → `reachy_hub` → `robot_pose` (Null) | out to the robot through `reachy_mapping` ([Puppet](1-puppet.md#the-reachy_mapping-component)), and its measured pose back |
+| `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back |
 
 The three are three kinds of reaction: a position that is followed, an event that
 starts something, and a strength that becomes an amount. Change their numbers first:
-the Multiply of `degrees`, the Lag of `follow`, the **Clip** of `nod`, the gesture
-named in `thumbs_up`. Then add your own chains, ending in `motion`. Or let
-`reachy_mapping` give the size: **Select** `hand/x` from `hand_out` (-1 to 1) →
-**Rename** (to `reachy/body_yaw`) → **Lag** → into `motion`, and on `reachy_mapping`'s
-Mapping page set **body_yaw in** to -1 and 1 and **body_yaw out** to -45 and 45. Move
-your hand and the body turns with it.
+**head/yaw out** on `reachy_mapping`, the Lag of `follow`, the **Clip** of `nod`, the
+gesture named in `thumbs_up`. Then add your own chains, the way the face and the voice
+go: **Select** `hand/x` from `hand_out` (-1 to 1) → **Math** (From Range -1 and 1, To
+Range 0 and 1) → **Rename** (to `reachy/body_yaw`) → into `to_mapping`, and set
+**body_yaw out** to -45 and 45 on `reachy_mapping`'s Mapping page. Move your hand and
+the body turns with it. A clip or a pose is in degrees already: it goes straight into
+`motion`, as `nod` does.
 
 - **`face` says `no data`:** press **Connect to MediaPipe** on `face` and on `hand`.
 - **`face` says `1 face` although the camera is off:** MediaPipe sends a stored face

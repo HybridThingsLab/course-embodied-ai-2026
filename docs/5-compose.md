@@ -26,7 +26,7 @@ always breathes.
 | Layer (mixer input) | Mode | Weight | What it is |
 | --- | --- | --- | --- |
 | `asleep` (2) | Take Over | 1 − awake | a pose: the head down, the antennas drooping |
-| `gaze` (3) | Take Over | `face/present` | `look` → `degrees` → `as_head` → `steady` → `follow`: it looks at the face |
+| `gaze` (3) | Take Over | `face/present` | `look` → `steady` → `follow` → `zero_to_one` → `as_head` → `reachy_mapping`: it looks at the face, as far as head/yaw out (-35 and 35) |
 | `listen` (4) | Add | `voice/active` | `lean_in`: the head forward, the antennas in |
 | `think` (5) | Add | `brain/thinking` | `tilt`: the head to one side |
 | `gestures` (6) | Add | 1 | the clips yes, no and maybe, when `brain` picks them |
@@ -39,10 +39,9 @@ layer: `someone` (a face or a voice) → `wake` (up at once, down over a few sec
 whether an act plays are renamed to `gaze`, `listen`, `think` and `act`. `leading` shows
 the weights as the mixer uses them.
 
-What the mixer makes goes to the robot through `reachy_mapping`
-([Puppet](1-puppet.md#the-reachy_mapping-component)): on its Mapping page,
-**antenna/left out** and **antenna/right out** at -1.55 and 1.55 make every antenna
-move of the character half as big.
+`gaze` goes as in `03_sense.toe`: the face, eased, from 0 to 1, through
+`reachy_mapping` ([Puppet](1-puppet.md#the-reachy_mapping-component)). The other
+layers are poses and clips, in degrees already.
 
 Change first: the **Weight** of `idle` on the mixer's Mixer page (0 = still, 2 =
 restless), the Lag of `wake` (how soon it falls asleep), and the **Mode** of `act`: as
@@ -75,6 +74,7 @@ A layer's weight is its **Weight** times its channel in input 1, if there is one
 **Weight** 0 mutes a layer. Take Over goes no further than 1; Add may (2 = twice as
 much).
 
-**Try:** a layer of your own: wire a CHOP with robot channels into the mixer's input
-9. Give the layer a **Name** and a **Mode**, and
+**Try:** a layer of your own into the mixer's input 9: a clip or a pose as it is, or a
+value of your own from 0 to 1 through a `reachy_mapping` of its own (copy the one in
+`gaze`). Give the layer a **Name** and a **Mode**, and
 its weight a channel of that name in `weights`.
