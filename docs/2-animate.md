@@ -30,7 +30,8 @@ press **Play**.
   when you are done. Never move the robot by hand while Teach is off: the motors hold
   against you.
 - **In the simulator:** set the Index of `switch` to 0, type a pose into `pose` (each part
-  from 0 to 1) and press **Add Key**. Next pose, Add Key again. Set the Index back to 1 when you are done.
+  from 0 to 1) and press **Add Key**. Next pose, Add Key again. Set the Index back to 1
+  when you are done.
 
 Then give it a **Name** on `recorder` and press **Save**: it becomes a clip file, in the
 Clip menu of `library` and of every other `clip_player`. Choose it there and press
@@ -54,8 +55,9 @@ start to its end.
   instead of the file.
 - **Input 2** (optional): a trigger. The clip plays when it goes from 0 to 1: a button,
   a gesture, a sound.
-- **Output 1:** the clip's channels, 0 while nothing plays. Wire it into `sum` and the
-  clip plays on top of the idle.
+- **Output 1:** the clip's channels, 0 while nothing plays. Add it to what else moves
+  the robot, channel by channel (a Math CHOP, *Add*, as `clips` does), and the clip plays
+  on top.
 - **Output 2:** `running`, `done` and `timer_fraction` (0 to 1 while it plays), for
   example to start something when a clip ends.
 
