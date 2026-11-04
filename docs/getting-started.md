@@ -16,6 +16,11 @@ We **strongly recommend** using a user-friendly git client like [GitHub Desktop]
 
 Or **Code → Download ZIP** on the repository's page works too (not the recommended way to stay updated!).
 
+On a Mac, put the project folder where iCloud does not sync it, for example in your home
+folder: not in Desktop or Documents if iCloud keeps them (GitHub Desktop suggests
+Documents/GitHub). iCloud would upload what the setup adds (more than 1 GB), and it
+marks those files hidden.
+
 ## 3. Run the setup
 
 In the project folder, double-click `setup.command` (macOS) or `setup.bat` (Windows).
@@ -72,6 +77,11 @@ for no simulator window, or `--robot` for the real robot.
 
 - **`No module named td_reachy`**: the first line was left out, or the setup has not
   run.
+- **macOS: `No module named 'gi'`, or `No module named td_reachy` although the setup
+  ran**: iCloud syncs the project folder and has marked the files in `.venv` hidden, so
+  Python leaves some of them out. Run `setup.command` again: it lets Python read them.
+  Better, move the project folder where iCloud does not sync it (step 2), delete the
+  `.venv` folder in it (`rm -rf .venv` in a terminal there) and run the setup again.
 - **Windows: `running scripts is disabled`**: run
   `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, or use
   `.venv\Scripts\activate.bat`.

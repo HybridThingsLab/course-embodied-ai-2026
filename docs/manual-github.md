@@ -19,7 +19,8 @@ This is called **cloning**. It creates a copy of the online repository on your c
 1. Open **GitHub Desktop**.
 2. Choose **Clone a Repository from the Internet...**.
 3. Select the **URL** tab and paste the repository URL, which in our case is "https://github.com/HybridThingsLab/course-embodied-ai-2026.git".
-4. Choose a **Local Path** (the folder where you want to save the files).
+4. Choose a **Local Path** (the folder where you want to save the files). On a Mac, not
+   in Desktop or Documents if iCloud syncs them ([why](getting-started.md#2-get-the-code)).
 5. Click **Clone**.
 
 Your project files are now on your computer. **You only need to clone the repository once.**

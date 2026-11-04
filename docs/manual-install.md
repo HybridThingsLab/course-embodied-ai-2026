@@ -41,6 +41,16 @@ uv pip install -e ".[sim]"
 
 A few hundred MB the first time. uv installs into the `.venv` of the folder it runs in.
 
+macOS, then:
+
+```bash
+.venv/bin/python src/td_reachy/venv_sitecustomize.py
+```
+
+It adds `sitecustomize.py` to `.venv`, so that Python leaves none of its files out when
+iCloud has marked them hidden
+([getting-started.md, step 2](getting-started.md#2-get-the-code)).
+
 ## 4. The check
 
 macOS:

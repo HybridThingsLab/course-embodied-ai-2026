@@ -32,6 +32,8 @@ fi
 
 step "3/4  Robot software, bridge and simulator (a few hundred MB the first time)"
 uv pip install --python .venv/bin/python -e ".[sim]" || fail "the installation failed"
+# Python leaves out .pth files that iCloud Drive has marked hidden: this reads them anyway
+.venv/bin/python src/td_reachy/venv_sitecustomize.py || fail "sitecustomize.py could not be added to .venv"
 
 step "4/4  Check: start the simulator and the bridge once, then stop"
 echo "The very first start can take a few minutes."

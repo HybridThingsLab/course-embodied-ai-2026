@@ -19,6 +19,8 @@ step "1/3  The project's environment"
 export PATH="$HOME/.local/bin:$PATH"
 command -v uv >/dev/null 2>&1 || fail "uv was not found: run setup.command first"
 echo "Found."
+# Python leaves out .pth files that iCloud Drive has marked hidden: this reads them anyway
+.venv/bin/python src/td_reachy/venv_sitecustomize.py || fail "sitecustomize.py could not be added to .venv"
 
 step "2/3  Whisper's packages"
 uv pip install --python .venv/bin/python -e ".[listen]" || fail "the installation failed"

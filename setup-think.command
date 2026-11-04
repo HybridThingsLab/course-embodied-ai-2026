@@ -19,6 +19,8 @@ fail() {
 step "The project's environment"
 [ -x .venv/bin/python ] || fail "there is no .venv folder yet: run setup.command first"
 echo "Found."
+# Python leaves out .pth files that iCloud Drive has marked hidden: this reads them anyway
+.venv/bin/python src/td_reachy/venv_sitecustomize.py || fail "sitecustomize.py could not be added to .venv"
 
 .venv/bin/python -m td_reachy.think_setup "$@" || fail "the models are not ready yet"
 
