@@ -37,7 +37,7 @@ Each module has a project to open, in [`touchdesigner/`](touchdesigner/), and a 
 | 6 | [A Microduck, without a duck](docs/6-duck.md) | The same behaviour, another body: a small duck that walks and does a forward roll, as a 3D model. | any of them, with `duck_hub` and `duck_model` |
 
 The idea behind all of them: a **signal** such as `face/x`, `voice/level` or `brain/yes`
-says what happens and never moves anything. The robot takes channels named after its
+says what happens and trigger movements. The robot takes channels named after its
 controls, such as `reachy/head/yaw`, through `reachy_hub`. In between is the
 **behaviour**: a network of ordinary TouchDesigner operators that you build.
 
