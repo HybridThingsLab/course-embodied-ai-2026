@@ -1,6 +1,6 @@
 winter term 2026/2027<br>
 Technical University of Applied Sciences Augsburg, Prof. Andreas Muxel & Mathias Hradecsni<br>
-[Hybrid Things Lab](https://github.com/HybridThingsLab), Faculty of Design
+[Hybrid Things Lab](https://github.com/HybridThingsLab), Faculty of Design (test)
 
 # Physical Interfaces / Embodied Interaction with AI
 
