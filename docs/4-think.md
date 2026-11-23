@@ -1,50 +1,44 @@
 # Think
 
-Module 4: a sentence, typed or spoken, goes in and a decision comes out. A model
-chooses one of your options, and the robot plays that option's clip. Another model
-writes what the robot says back.
+Module 4: a sentence, typed or spoken, goes in. A model chooses one of your options and
+the robot plays that option's clip; another model writes what the robot says back.
 
 Before: [Sense](3-sense.md). Next: [Compose](5-compose.md).
 
-## A sentence in, a clip out: 04_think.toe
+## Step by step: 04_think.toe
 
-Open [`touchdesigner/04_think.toe`](../touchdesigner/04_think.toe) and press **Start**
-on `reachy_hub`: `reachy_model` shows the simulated robot, or the real one. Then click `brain`, type a sentence into **Text** on its Brain page and
-press Enter.
+[`touchdesigner/04_think.toe`](../touchdesigner/04_think.toe) is the robot and its
+reactions. What listens, decides and speaks you add yourself, one component at a time:
+drag its `.tox` file from `touchdesigner/components` into the network and wire it in.
+Three placeholders, `no_speech`, `no_brain` and `no_voice`, stand where a component's
+output goes: wire the component onto the operator after the placeholder, and it takes
+the placeholder's place.
 
-It starts with the model Tev1, which needs `setup-think`
-([below](#a-decision-the-brain_signal-component)). With **Answered By** set to
-*Keywords only* on the Model page it works without anything installed, but says
-nothing back.
+Press **Start** on `reachy_hub` first: `reachy_model` shows the simulated robot, or the
+real one.
 
-| Operator | What it does |
-| --- | --- |
-| `options` (Table) | one row per option: its name, a description of when it fits (what the model reads), and keywords |
-| `speech` (a `speech_signal`) | what it hears goes into `brain` as a sentence |
-| `brain` (a `brain_signal`) | asks the model which option fits; `brain_out` shows its channels |
-| `pick_yes` → `play_yes` (a `clip_player`), and the same for each option | the chosen option starts the player that holds its clip |
-| `waiting` → `as_roll` → `ease` | while it waits for the answer (`brain/thinking`, 0 to 1), named like the head's tilt |
-| `to_mapping` → `reachy_mapping` → `mapped` | the tilt and the talking antennas, from 0 to 1, into how far: head/roll out 0 and 8, the antennas' 0 and 0.4 ([Puppet](1-puppet.md#the-reachy_mapping-component)) |
-| `base` and `motion` (Math: Combine CHOPs *Add*) | everything added up |
-| `to_robot` (Null) → `reachy_hub` → `robot_pose` (Null) | out to the robot, and its measured pose back |
-| `answer_too` → `answer` (an `answer`) → `speaker` (a `speaker`) | every sentence `brain` is asked goes to `answer` too; it writes a short answer and `speaker` says it. `answer_out` shows its channels, `talk_*` move the antennas with the voice |
-| `listen_gate` → `heard` | what `speech` hears goes to `brain`, unless the robot was speaking just then |
+| Step | Drag in | Wire | Then |
+| --- | --- | --- | --- |
+| 1 · Speech to text | `speech_signal.tox` | first output → `speech_in`, second output → `said` | Language *English*, **Listen** on. What you say appears in `heard`; while you speak, the head tilts. |
+| 2 · A decision | `brain_signal.tox` | `options` → first input, `heard` → second input, first output → `brain_in` | A model chooses an option and its clip plays (`pick_yes` → `play_yes` …). While it thinks, the head looks up. |
+| 3 · Text to speech | `speaker.tox` | first output → `voice_in` | Type into **Text** on its Speaker page: the robot says it, and the antennas move with the voice. |
+| 4 · An answer | `answer.tox` | `heard` → its input, its second output → the speaker's input | The robot answers what you say. **Character** is who it is. |
 
-The options are yours. Change a description and ask again: the description is all the
-model knows about an option. For a new option, add a row to `options`, copy a `pick_`
-and `play_` pair, name the option in the Select, choose a **Clip** in the player and
-wire it into `motion`.
+Each step needs its setup once: `setup-listen` (1), Ollama and `setup-think` (2 and 4),
+`setup-speak` (3).
 
-To say the sentence instead of typing it, click `speech` and switch **Listen** on
-([`speech_signal`](3-sense.md#what-was-said-the-speech_signal-component)).
-
-The robot answers out loud: `answer` writes a short answer to each sentence
-([below](#an-answer-the-answer-component)), on its own, while `brain` chooses the clip,
-and `speaker` says it ([below](#a-voice-the-speaker-component)). Both use the speaker's
-**Language**: `en` or `de`. For German, choose *Deutsch* on `speaker` and on `speech`,
-and an **Engine** other than Kokoro, which speaks English only. The microphone hears
-the robot too, so `listen_gate` passes on nothing heard while it speaks or in the 2 s
-after: wait a moment before you answer.
+- **The options are yours.** The description in `options` is all the model knows about
+  an option. For a new option add a row, copy `pick_yes`, `play_yes` and `yes_out`
+  together, wire `brain_in` into the new Select and the new Null into `motion`, write
+  `brain/pick/` and the option's name in the Select, and choose a **Clip** in the
+  player.
+- **How far:** the head's tilt (head/roll), its look up (head/pitch) and the antennas
+  are on `reachy_mapping`'s Mapping page.
+- **The microphone hears the robot too.** `listen_gate` passes nothing on to `heard`
+  while the robot speaks or in the 2 s after, so it does not answer itself. With other
+  robots nearby, use headphones.
+- **German:** choose *Deutsch* on `speech_signal`, the speaker and `answer`, and a
+  speaker **Engine** other than Kokoro, which speaks English only.
 
 ## A decision: the brain_signal component
 
