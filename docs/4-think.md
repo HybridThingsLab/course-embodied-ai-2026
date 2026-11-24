@@ -7,36 +7,36 @@ Before: [Sense](3-sense.md). Next: [Compose](5-compose.md).
 
 ## Step by step: 04_think.toe
 
-[`touchdesigner/04_think.toe`](../touchdesigner/04_think.toe) is the robot and its
-reactions. What listens, decides and speaks you add yourself, one component at a time:
-drag its `.tox` file from `touchdesigner/components` into the network and wire it in.
-Three placeholders, `no_speech`, `no_brain` and `no_voice`, stand where a component's
-output goes: wire the component onto the operator after the placeholder, and it takes
-the placeholder's place.
+[`touchdesigner/04_think.toe`](../touchdesigner/04_think.toe) has a base for each part
+of Think: `speech_to_text`, `text_to_choice`, `text_to_speech` and `text_to_answer`. Each
+base holds what the robot does with its part, but not the part itself: you add that.
+Go into a base (double-click it) and read its `instructions`. Drag the component's
+`.tox` file from `touchdesigner/components` into the base, wire it there, and press
+**u** to go back up. The bases are already wired to each other.
 
 Press **Start** on `reachy_hub` first: `reachy_model` shows the simulated robot, or the
 real one.
 
-| Step | Drag in | Wire | Then |
-| --- | --- | --- | --- |
-| 1 · Speech to text | `speech_signal.tox` | first output → `speech_in`, second output → `said` | Language *English*, **Listen** on. What you say appears in `heard`; while you speak, the head tilts. |
-| 2 · A decision | `brain_signal.tox` | `options` → first input, `heard` → second input, first output → `brain_in` | A model chooses an option and its clip plays (`pick_yes` → `play_yes` …). While it thinks, the head looks up. |
-| 3 · Text to speech | `speaker.tox` | first output → `voice_in` | Type into **Text** on its Speaker page: the robot says it, and the antennas move with the voice. |
-| 4 · An answer | `answer.tox` | `heard` → its input, its second output → the speaker's input | The robot answers what you say. **Character** is who it is. |
+| Step | Into the base | Drag in | Wire | Then |
+| --- | --- | --- | --- | --- |
+| 1 · Speech to text | `speech_to_text` | `speech_signal.tox` | first output → `speech_in`, second output → `said` | Language *English*, **Listen** on. What you say appears in `heard`; while you speak, the head tilts. |
+| 2 · A decision | `text_to_choice` | `brain_signal.tox` | `options` → first input, `sentence` → second input, first output → `brain_in` | A model chooses an option and its clip plays (`pick_yes` → `play_yes` …). While it thinks, the head looks up. |
+| 3 · Text to speech | `text_to_speech` | `speaker.tox` | `reply` → its input, first output → `voice_in` | Type into **Text** on its Speaker page: the robot says it, and the antennas move with the voice. |
+| 4 · An answer | `text_to_answer` | `answer.tox` | `sentence` → its input, second output → `reply` | The robot answers what you say. **Character** is who it is. |
 
 Each step needs its setup once: `setup-listen` (1), Ollama and `setup-think` (2 and 4),
 `setup-speak` (3).
 
-- **The options are yours.** The description in `options` is all the model knows about
-  an option. For a new option add a row, copy `pick_yes`, `play_yes` and `yes_out`
-  together, wire `brain_in` into the new Select and the new Null into `motion`, write
+- **The options are yours.** `options`, in `text_to_choice`, is all the model knows
+  about an option. For a new option add a row, copy `pick_yes`, `play_yes` and `yes_out`
+  together, wire `brain_in` into the new Select and the new Null into `played`, write
   `brain/pick/` and the option's name in the Select, and choose a **Clip** in the
   player.
 - **How far:** the head's tilt (head/roll), its look up (head/pitch) and the antennas
-  are on `reachy_mapping`'s Mapping page.
-- **The microphone hears the robot too.** `listen_gate` passes nothing on to `heard`
-  while the robot speaks or in the 2 s after, so it does not answer itself. With other
-  robots nearby, use headphones.
+  are on the Mapping page of `reachy_mapping`, next to the robot.
+- **The microphone hears the robot too.** `listen_gate`, in `speech_to_text`, passes
+  nothing on to `heard` while the robot speaks or in the 2 s after, so it does not
+  answer itself. With other robots nearby, use headphones.
 - **German:** choose *Deutsch* on `speech_signal`, the speaker and `answer`, and a
   speaker **Engine** other than Kokoro, which speaks English only.
 
@@ -168,5 +168,4 @@ robot's own speaker, empty for this computer's.
 | `speaker/silence` | seconds | how long ago it last stopped speaking |
 | `speaker/age` | seconds | how long ago the last sentence began |
 
-**Try:** `speaker/level` as a nod: **Select** → **Math** (multiply by 4) → **Rename**
-to `reachy/head/pitch` → into `motion`.
+**Try:** another voice: choose another **Voice**, or set **Speed** to 0.8.
