@@ -154,8 +154,9 @@ installs the packages, downloads Kokoro and says a sentence.
 | **Piper** | on this computer, the fastest | English, German | downloads each voice (60 MB) |
 
 **Voice** lists the engine's voices in that **Language**; **Speed** goes from 0.5 to 2.
-On the Program page, **Output** is where the sound goes: `Reachy Mini Audio` for the
-robot's own speaker, empty for this computer's.
+On the Program page, **Output** lists this computer's sound outputs: choose
+`Reachy Mini Audio` for the robot's own speaker, `default` (or nothing) for this
+computer's. You can also type part of a name.
 
 - **Input 1** (optional): a sentence, for example `speech_signal`'s second output. It is
   said when it changes.
