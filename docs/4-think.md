@@ -5,33 +5,36 @@ the robot plays that option's clip; another model writes what the robot says bac
 
 Before: [Sense](3-sense.md). Next: [Compose](5-compose.md).
 
-## Step by step: 04_think.toe
+## 04_think.toe
 
 [`touchdesigner/04_think.toe`](../touchdesigner/04_think.toe) has a base for each part
 of Think: `speech_to_text`, `text_to_choice`, `text_to_speech` and `text_to_answer`. Each
-base holds what the robot does with its part, but not the part itself: you add that.
-Go into a base (double-click it) and read its `instructions`. Drag the component's
-`.tox` file from `touchdesigner/components` into the base, wire it there, and press
-**u** to go back up. The bases are already wired to each other.
+base holds its component, wired in, and what the robot does with it. Go into a base
+(double-click it) to see what is in it and read its `instructions`; press **u** to go
+back up. The bases are wired to each other.
 
-Press **Start** on `reachy_hub` first: `reachy_model` shows the simulated robot, or the
-real one.
+1. Open Ollama. Press **Start** on `reachy_hub`: `reachy_model` shows the simulated
+   robot, or the real one.
+2. In `speech_to_text`, switch **Listen** on, on `speech_signal`'s Speech page.
+3. Say something: the robot reacts with a clip and answers out loud.
 
-| Step | Into the base | Drag in | Wire | Then |
-| --- | --- | --- | --- | --- |
-| 1 · Speech to text | `speech_to_text` | `speech_signal.tox` | first output → `speech_in`, second output → `said` | Language *English*, **Listen** on. What you say appears in `heard`; while you speak, the head tilts. |
-| 2 · A decision | `text_to_choice` | `brain_signal.tox` | `options` → first input, `sentence` → second input, first output → `brain_in` | A model chooses an option and its clip plays (`pick_yes` → `play_yes` …). While it thinks, the head looks up. |
-| 3 · Text to speech | `text_to_speech` | `speaker.tox` | `reply` → its input, first output → `voice_in` | Type into **Text** on its Speaker page: the robot says it, and the antennas move with the voice. |
-| 4 · An answer | `text_to_answer` | `answer.tox` | `sentence` → its input, second output → `reply` | The robot answers what you say. **Character** is who it is. |
+| Base | Component | What it does |
+| --- | --- | --- |
+| `speech_to_text` | `speech_signal` | What you say appears in `heard`; while you speak, the head tilts. |
+| `text_to_choice` | `brain_signal` | A model chooses an option and its clip plays (`pick_yes` → `play_yes` …). While it thinks, the head looks up. |
+| `text_to_speech` | `speaker` | It says what `answer` writes; to try it on its own, type into **Text** on its Speaker page. The antennas move with the voice. |
+| `text_to_answer` | `answer` | The robot answers what you say. **Character** is who it is. |
 
-Each step needs its setup once: `setup-listen` (1), Ollama and `setup-think` (2 and 4),
-`setup-speak` (3).
+Each component needs its setup once: `setup-listen` (`speech_signal`), Ollama and
+`setup-think` (`brain_signal` and `answer`), `setup-speak` (`speaker`). Too much for your
+laptop? `brain_signal` and `answer` can ask models in the cloud instead, with a key:
+**Jev** and **Claude Haiku**, below.
 
-- **The options are yours.** `options`, in `text_to_choice`, is all the model knows
-  about an option. For a new option add a row, copy `pick_yes`, `play_yes` and `yes_out`
-  together, wire `brain_in` into the new Select and the new Null into `played`, write
-  `brain/pick/` and the option's name in the Select, and choose a **Clip** in the
-  player.
+- **The options are yours.** `options`, in `text_to_choice`, is what the model knows
+  about your options: it reads each option's name and description. For a new option
+  add a row, copy `pick_yes`, `play_yes` and `yes_out` together, wire `brain_in` into
+  the new Select and the new Null into `played`, write `brain/pick/` and the option's
+  name in the Select, and choose a **Clip** in the player.
 - **How far:** the head's tilt (head/roll), its look up (head/pitch) and the antennas
   are on the Mapping page of `reachy_mapping`, next to the robot.
 - **The microphone hears the robot too.** `listen_gate`, in `speech_to_text`, passes
@@ -73,8 +76,9 @@ Type a sentence into **Text** on the Brain page and press Enter; **Ask** asks it
 
 - **Tev1:** needs Ollama and the model, [step by step below](#tev1-step-by-step). The
   first answer takes a few seconds, later ones under a second.
-- **Jev:** put the key in the first line of a text file `brain_key.txt` in the project
-  folder. Never type it into a parameter: it would be saved with the project.
+- **Jev:** needs a key, in the first line of a text file `brain_key.txt` in the project
+  folder, next to `setup.command`. Never type it into a parameter: it would be saved
+  with the project.
 - **The keywords** answer when no model does. Status then begins with
   `keyword match:` and says why: Ollama not running, no model, no key.
 

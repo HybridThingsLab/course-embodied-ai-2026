@@ -32,7 +32,7 @@ Each module has a project to open, in [`touchdesigner/`](touchdesigner/), and a 
 | 1 | [Puppet](docs/1-puppet.md) | Move the robot directly, part by part, from 0 to 1. | `01_puppet.toe` |
 | 2 | [Animate](docs/2-animate.md) | Movements over time: play clips such as yes and no, and make your own. | `02_animate.toe` |
 | 3 | [Sense](docs/3-sense.md) | A face, a hand, a voice and a spoken sentence, as numbers to react to. | `03_sense.toe` |
-| 4 | [Think](docs/4-think.md) | Step by step: speech to text, a model that chooses one of your options, a voice, and a model that answers. You drag each one in yourself. | `04_think.toe` |
+| 4 | [Think](docs/4-think.md) | Speech to text, a model that chooses one of your options, a voice, and a model that answers, each in a base of its own. | `04_think.toe` |
 | 5 | [Compose](docs/5-compose.md) | All of it as one behaviour: it sleeps, wakes, looks, listens and answers, each a layer in a mixer. | `05_compose.toe` |
 | 6 | [A Microduck, without a duck](docs/6-duck.md) | The same behaviour, another body: a small duck that walks and does a forward roll, as a 3D model. | any of them, with `duck_hub` and `duck_model` |
 
